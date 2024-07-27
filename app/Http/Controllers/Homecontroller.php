@@ -11,6 +11,13 @@ class Homecontroller extends Controller
         return view('layouts.dash');
     }
 
+    public function  index2() {
+        return view('layouts.product');
+    }
+    public function  index3() {
+        return view('layouts.edit');
+    }
+
     public function  index1() {
 
         

@@ -18,6 +18,9 @@ use App\Http\Controllers\SiteController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
+Route::get('/product', [HomeController::class, 'index2'])->name('product');
+Route::get('/edit', [HomeController::class, 'index3'])->name('edit');
+
 Route::get('/site', [HomeController::class, 'index1'])->name('sites');
 // Route pour afficher le formulaire d'ajout de site
 Route::get('/sites/create', [SiteController::class, 'create'])->name('sites.create');
