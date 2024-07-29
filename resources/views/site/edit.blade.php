@@ -8,17 +8,17 @@
                 <div class="nk-content-body">
 
                     @include('components.header',[
-                        'title' => "Modification du produit « ".$product->name." »",
+                        'title' => "Modification du site « ".$site->name." »",
                         'back'   => [
-                            'label' => 'Liste des produits',
-                            'url'   => route('product.index'),
+                            'label' => 'Liste des sites',
+                            'url'   => route('site.index'),
                         ],
                     ])
 
                     <div class="card">
                         <div class="card-body">
 
-                            <form action="{{ route('product.update' , $product) }}" method="POST" id="create-form">
+                            <form action="{{ route('site.update' , $site) }}" method="POST" id="create-form">
 
                                 @csrf
                                 @method('PUT')
@@ -34,26 +34,9 @@
                                                         class="form-control @error('name') is-invalid @enderror"
                                                         id="name"
                                                         name="name"
-                                                        value="{{ $product->name }}"
+                                                        value="{{ $site->name }}"
                                                         placeholder="Ex : Lampe">
                                                 @error('name')
-                                                    <span class="error">{{ $message }}</span>
-                                                @enderror
-                                            </div>
-                                        </div>
-                                    </div>
-
-                                    <div class="col-lg-6">
-                                        <div class="form-group">
-                                            <label class="form-label" for="price">Prix</label>
-                                            <div class="form-control-wrap">
-                                                <input type="number"
-                                                        class="form-control @error('price') is-invalid @enderror"
-                                                        id="price"
-                                                        name="price"
-                                                        value="{{ $product->price }}"
-                                                        placeholder="Ex : 5 000">
-                                                @error('price')
                                                     <span class="error">{{ $message }}</span>
                                                 @enderror
                                             </div>
@@ -64,8 +47,7 @@
 
                                 <div class="pt-3 text-center">
                                     <button type="submit"
-                                            class="btn btn-md btn-primary"
-                                            title="Modifier un produit">
+                                            class="btn btn-md btn-primary">
                                         Modifier
                                     </button>
                                 </div>

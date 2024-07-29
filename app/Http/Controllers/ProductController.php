@@ -30,7 +30,6 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request);
         $products = $request->product;
         $create = 0;
 
@@ -50,7 +49,7 @@ class ProductController extends Controller
         }
 
         if (isset($create_product)) {
-            return redirect()->route('product.index')->with(['success' => "Vous venez d'enregistrer ".$create." élève(s)."]);
+            return redirect()->route('product.index')->with(['success' => "Vous venez d'enregistrer ".$create." produit(s)."]);
         }else {
             return redirect()->route('product.index')->with(['error' => "Enregistrement echoué. Veuillez verifier vos informations saisies."]);
         }

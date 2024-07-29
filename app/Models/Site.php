@@ -5,7 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Product extends Model
+class Site extends Model
 {
     use HasFactory;
 
@@ -15,7 +15,7 @@ class Product extends Model
      * Relationships
      */
 
-    public function users(){
+     public function users(){
         return $this->belongsTo(User::class, 'users_id');
     }
 }
