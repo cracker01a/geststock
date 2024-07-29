@@ -2,7 +2,9 @@
 <html lang="zxx" class="js">
 
 <head>
-    <base href="/">
+
+    <base href="{{ asset('./') }}">
+
     <meta charset="utf-8">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
