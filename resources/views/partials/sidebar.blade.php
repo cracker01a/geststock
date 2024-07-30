@@ -75,10 +75,10 @@
                         </a>
                         <ul class="nk-menu-sub">
                             <li class="nk-menu-item">
-                                <a href="#" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
+                                <a href="{{ route('achat.index') }}" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
                             </li>
                             <li class="nk-menu-item">
-                                <a href="#" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
+                                <a href="{{ route('achat.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
                             </li>
                         </ul>
                     </li>
