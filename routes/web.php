@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\achatcontroller;
+use App\Http\Controllers\VenteController;
+
+use App\Http\Controllers\UserController;
 
 
 /*
@@ -59,8 +62,34 @@ Route::group(['middleware' => ['auth']] , function(){
       Route::get('/enabled/{id}', 'enabled')->name('enabled');
       Route::delete('/delete/{id}', 'destroy')->name('delete');
   });
+// Routes for 'ventes'
+Route::resource('ventes', VenteController::class)->except(['show']);
+Route::get('/products/{id}/quantity', [ProductController::class , 'getQuantity'])->name('products.quantity');
+
+Route::controller(VenteController::class)->prefix('ventes')
+    ->name('ventes.')
+    ->group(function () {
+        Route::get('/{vente}/edit', 'edit')->name('edit');
+        Route::put('/{vente}', 'update')->name('update');
+        Route::get('/enabled/{id}', 'enabled')->name('enabled');
+        Route::delete('/delete/{id}', 'destroy')->name('delete');
+    });
+
+// Route for getting the price of a product
+Route::get('/products/{id}/price', function($id) {
+    $product = App\Models\Product::find($id);
+    return response()->json(['price' => $product->price]);
+})->name('products.price');
 
 });
 
 
 
+// Routes for users 
+Route::get('users/create', [UserController::class, 'create'])->name('users.create');
+Route::post('users', [UserController::class, 'store'])->name('users.store');
+Route::get('users', [UserController::class, 'index'])->name('users.index');
+
+Route::get('users/{id}/edit', [UserController::class, 'edit'])->name('users.edit');
+Route::put('users/{id}', [UserController::class, 'update'])->name('users.update');
+Route::delete('users/{id}', [UserController::class, 'destroy'])->name('users.destroy');

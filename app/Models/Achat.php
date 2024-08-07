@@ -15,12 +15,16 @@ class achat extends Model
 
    
     protected $fillable = [
-        'site_id', 'designation', 'quantity', 'users_id', 'unit_price', 'total_price', 
+        'site_id', 'product_id', 'quantity', 'users_id', 'unit_price', 'total_price','numero_achat', 
     ];
 
     public function user()
     {
         return $this->belongsTo(User::class, 'users_id');
+    }
+    public function product()
+    {
+        return $this->belongsTo(product::class, 'product_id');
     }
 
     public function site()

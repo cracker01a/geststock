@@ -13,7 +13,7 @@
 <table class="datatable-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
     <thead>
         <tr class="nk-tb-item nk-tb-head">
-            <th class="nk-tb-col tb-col-sm"><span>Nom</span></th>
+            <th class="nk-tb-col tb-col-sm"><span>Name</span></th>
             <th class="nk-tb-col"><span>Prix Unitaire</span></th>
             <th class="nk-tb-col"><span>Quantité</span></th>
             <th class="nk-tb-col"><span>Prix Total</span></th>
@@ -31,7 +31,7 @@
                 <td class="nk-tb-col tb-col-sm">
                     <span class="tb-product">
                         <span class="title">
-                            {{ $achat->designation }}
+                        {{ $achat->product->name }}
                         </span>
                     </span>
                 </td>

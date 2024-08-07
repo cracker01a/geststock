@@ -35,13 +35,16 @@
 
                         <div class="col-lg-5">
                             <div class="form-group">
-                                <label class="form-label" for="designation">Désignation</label>
-                                <div class="form-control-wrap">
-                                    <input type="text" class="form-control @error('achat.*.designation') is-invalid @enderror" id="designation" name="achat[0][designation]" placeholder="Ex : Lampe">
-                                    @error('achat.*.designation')
-                                        <span class="error">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                <label class="form-label" for="product_id">Choisissez le produit</label>
+                                <select class="form-control @error('product_id') is-invalid @enderror" id="product_id" name="product_id">
+                                    <option value="" disabled selected>-- Sélectionnez un produit --</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('product_id')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
                             </div>
                         </div>
 
@@ -61,7 +64,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="quantity">Quantité</label>
                                 <div class="form-control-wrap">
-                                    <input type="number" class="form-control @error('achat.*.quantity') is-invalid @enderror" id="quantity" name="achat[0][quantity]" placeholder="Ex : 10">
+                                    <input type="number" min="0"  step="1" class="form-control @error('achat.*.quantity') is-invalid @enderror" id="quantity" name="achat[0][quantity]" placeholder="Ex : 10">
                                     @error('achat.*.quantity')
                                         <span class="error">{{ $message }}</span>
                                     @enderror

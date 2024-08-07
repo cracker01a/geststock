@@ -15,6 +15,7 @@
             <tr class="nk-tb-item nk-tb-head">
                 <th class="nk-tb-col tb-col-sm"><span>Nom</span></th>
                 <th class="nk-tb-col"><span>Prix</span></th>
+                <th class="nk-tb-col"><span>Qte</span></th>
                 <th class="nk-tb-col"><span>Par</span></th>
                 <th class="nk-tb-col"><span>Date creation</span></th>
                 <th class="nk-tb-col"><span>Actif</span></th>
@@ -38,6 +39,11 @@
                     <td class="nk-tb-col">
                         <span class="tb-lead">
                             {{ number_format( $product->price , 0 , '' , ' ') }} F CFA
+                        </span>
+                    </td>
+                    <td class="nk-tb-col">
+                        <span class="tb-lead">
+                            {{ $product->quantity }} 
                         </span>
                     </td>
                     <td class="nk-tb-col">
