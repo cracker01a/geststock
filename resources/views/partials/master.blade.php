@@ -31,9 +31,20 @@
             <div class="nk-wrap ">
                 <!-- main header @s -->
                 @include('partials.header')
-                <!-- main header @e -->
-                <!-- content @s -->
-                @yield('content')
+                
+                <div class="nk-content ">
+                    <div class="container-fluid">
+                        <div class="nk-content-inner">
+                            <div class="nk-content-body">
+
+                                <div id='showMsg'></div>
+                                <!-- main header @e -->
+                                <!-- content @s -->
+                                @yield('content')
+                            </div>
+                        </div>
+                    </div>
+                </div>
                 <!-- content @e -->
                 <!-- footer @s -->
                 @include('partials.footer')
@@ -50,6 +61,8 @@
     <script src="./assets/js/bundle.js?ver=3.2.3"></script>
     <script src="./assets/js/scripts.js?ver=3.2.3"></script>
     <script src="./assets/js/charts/chart-ecommerce.js?ver=3.2.3"></script>
+    <script src="./assets/js/functions.js"></script>
+
     @include('partials.js.function')
     @yield('scripts')
 </body>

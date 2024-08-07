@@ -18,4 +18,10 @@ class Product extends Model
     public function users(){
         return $this->belongsTo(User::class, 'users_id');
     }
+
+    public function achat()
+    {
+        return $this->hasMany(Achat::class, 'product_id' , 'id');
+    }
+
 }
