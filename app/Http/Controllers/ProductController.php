@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\Product;
+use App\Models\Vente;
+use App\Models\Achat;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -123,5 +125,11 @@ class ProductController extends Controller
 
         return redirect()->back()->with('success', $message);
 
+    }
+
+        public function getQuantity($id)
+    {
+        $quantity = Produit::where('product_id', $id)->sum('quantity');
+        return response()->json(['quantity' => $quantity]);
     }
 }
