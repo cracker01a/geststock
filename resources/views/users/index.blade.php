@@ -18,6 +18,7 @@
                 <th class="nk-tb-col"><span>Nom</span></th>
                 <th class="nk-tb-col"><span>Statut</span></th>
                 <th class="nk-tb-col"><span>Email</span></th>
+                <th class="nk-tb-col"><span>Site</span></th>
                 <th class="nk-tb-col"><span>Active</span></th>
                 <th class="nk-tb-col nk-tb-col-tools">Actions</th>
             </tr>
@@ -38,6 +39,9 @@
                     </td>
                     <td class="nk-tb-col">
                         <span class="tb-sub">{{ $user->email }}</span>
+                    </td>
+                    <td class="nk-tb-col">
+                        <span class="tb-sub">{{ $user->site ? $user->site->name : "---"}}</span>
                     </td>
                     <td class="nk-tb-col">
                         <span class="tb-sub">{{ $user->isActive ? 'Oui' : 'Non' }}</span>
@@ -80,8 +84,8 @@
             @endforeach
         </tbody>
     </table>
-    
-  
+
+
 </div>
 
 

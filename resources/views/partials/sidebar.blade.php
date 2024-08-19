@@ -18,113 +18,136 @@
                     </li>
 
                     {{-- DASHBOARD --}}
-                    <li class="nk-menu-item">
+                    {{-- <li class="nk-menu-item">
                         <a href="{{ route('dashboard') }}" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-dashboard"></em></span>
                             <span class="nk-menu-text">Tableau de bord</span>
                         </a>
-                    </li>
-
-                    {{-- PRODUITS --}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-card-view"></em></span>
-                            <span class="nk-menu-text">Products</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('product.index') }}"
-                                    class="nk-menu-link">
-                                    <span class="nk-menu-text"> Liste </span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{ route('product.create') }}"
-                                    class="nk-menu-link">
-                                    <span class="nk-menu-text"> Ajouter </span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    </li> --}}
 
                     {{-- SITES --}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
-                            <span class="nk-menu-text">Gestion de site</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('site.index') }}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Liste</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{ route('site.create') }}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Ajouter</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'admin')
 
-                    {{-- ACHAT --}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
-                            <span class="nk-menu-text">Achats</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('achat.index') }}" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{ route('achat.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
-                            </li>
-                        </ul>
-                    </li>
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-home"></em></span>
+                                <span class="nk-menu-text">Gestion de site</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('site.index') }}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Liste</span>
+                                    </a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('site.create') }}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Ajouter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
 
-                    {{-- VENTES --}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-list-check"></em></span>
-                            <span class="nk-menu-text">Ventes</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('ventes.index') }}" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{ route('ventes.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
-                            </li>
-                        </ul>
-                    </li>
+                    @endif
+
+
+                    {{-- PRODUITS --}}
+                    @if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'product_manager')
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-card-view"></em></span>
+                                <span class="nk-menu-text">Products</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('product.index') }}"
+                                        class="nk-menu-link">
+                                        <span class="nk-menu-text"> Liste </span>
+                                    </a>
+                                </li>
+                                @if ( Auth::user()->status == 'product_manager')
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('product.create') }}"
+                                            class="nk-menu-link">
+                                            <span class="nk-menu-text"> Ajouter </span>
+                                        </a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+                    @endif
+
+                    @if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'stock_manager')
+
+                        {{-- ACHAT --}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-cart"></em></span>
+                                <span class="nk-menu-text">Achats</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('achat.index') }}" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
+                                </li>
+                                @if ( Auth::user()->status == 'stock_manager')
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('achat.groupe.index') }}" class="nk-menu-link"><span class="nk-menu-text">Goupe</span></a>
+                                    </li>
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('achat.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+
+                        {{-- VENTES --}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-list-check"></em></span>
+                                <span class="nk-menu-text">Ventes</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('ventes.index') }}" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
+                                </li>
+                                @if ( Auth::user()->status == 'stock_manager')
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('ventes.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
+                                    </li>
+                                @endif
+                            </ul>
+                        </li>
+
+                    @endif
 
                     {{-- UTILISATEURS --}}
-                    <li class="nk-menu-item has-sub">
-                        <a href="#" class="nk-menu-link nk-menu-toggle">
-                            <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
-                            <span class="nk-menu-text">Utilisateurs</span>
-                        </a>
-                        <ul class="nk-menu-sub">
-                            <li class="nk-menu-item">
-                                <a href="{{ route('users.index') }}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Liste</span>
-                                </a>
-                            </li>
-                            <li class="nk-menu-item">
-                                <a href="{{ route('users.create') }}" class="nk-menu-link">
-                                    <span class="nk-menu-text">Ajouter</span>
-                                </a>
-                            </li>
-                        </ul>
-                    </li>
+                    @if ( Auth::user()->status == 'super_admin')
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-users-fill"></em></span>
+                                <span class="nk-menu-text">Utilisateurs</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('users.index') }}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Liste</span>
+                                    </a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('users.create') }}" class="nk-menu-link">
+                                        <span class="nk-menu-text">Ajouter</span>
+                                    </a>
+                                </li>
+                            </ul>
+                        </li>
+                    @endif
 
-                    <li class="nk-menu-item">
+                    {{-- <li class="nk-menu-item">
                         <a href="html/pricing-table.html" class="nk-menu-link">
                             <span class="nk-menu-icon"><em class="icon ni ni-bar-chart-alt"></em></span>
                             <span class="nk-menu-text">Statistiques</span>
                         </a>
-                    </li>
+                    </li> --}}
 
                 </ul>
 

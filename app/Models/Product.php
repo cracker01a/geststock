@@ -21,7 +21,11 @@ class Product extends Model
 
     public function achat()
     {
-        return $this->hasMany(Achat::class, 'product_id' , 'id');
+        return $this->hasMany(Achat::class, 'products_id' , 'id');
+    }
+
+    public function site(){
+        return $this->belongsTo(Site::class, 'sites_id');
     }
 
 }

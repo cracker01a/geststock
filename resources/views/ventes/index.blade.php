@@ -2,17 +2,22 @@
 
 @section('content')
 
-    @include('components.header' , [
-        'title'     => 'Liste des ventes',
-        'btn'   => [
-            'label' => 'Effectuer une vente',
-            'url'   => route('ventes.create'),
-        ],
-    ])
-
+    @if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'admin')
+        @include('components.header', [
+            'title' => 'Liste des ventes',
+        ])
+    @else
+        @include('components.header' , [
+            'title'     => 'Liste des ventes',
+            'btn'   => [
+                'label' => 'Effectuer une vente',
+                'url'   => route('ventes.create'),
+            ],
+        ])
+    @endif
 
     <table class="datatable-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
-    
+
     <thead>
         <tr class="nk-tb-item nk-tb-head">
             <th class="nk-tb-col tb-col-sm"><span>Produit</span></th>
@@ -64,8 +69,8 @@
                                 <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
                                     <em class="icon ni ni-more-h"></em>
                                 </a>
-                               
-                                  
+
+
                                         <!-- Action Valider -->
                                         @if ($vente->status === 'non validée')
                                 <div class="dropdown-menu dropdown-menu-end">

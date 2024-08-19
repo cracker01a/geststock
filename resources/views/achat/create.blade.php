@@ -21,8 +21,9 @@
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-label" for="site_id">Choisissez le site</label>
-                                <select class="form-control @error('site_id') is-invalid @enderror" id="site_id" name="site_id">
-                                    <option value="" disabled selected>-- Sélectionnez un site --</option>
+                                <select class="form-select  @error('site_id') is-invalid @enderror"
+                                        name="site_id">
+                                    <option value="" disabled selected> Sélectionnez un site </option>
                                     @foreach ($sites as $site)
                                         <option value="{{ $site->id }}">{{ $site->name }}</option>
                                     @endforeach
@@ -36,10 +37,12 @@
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-label" for="product_id">Choisissez le produit</label>
-                                <select class="form-control @error('product_id') is-invalid @enderror" id="product_id" name="product_id">
-                                    <option value="" disabled selected>-- Sélectionnez un produit --</option>
+                                <select class="form-select  @error('product_id') is-invalid @enderror"
+                                        {{-- id="product_id" --}}
+                                        name="product_id">
+                                    <option value="" disabled selected> Sélectionnez un produit </option>
                                     @foreach ($products as $product)
-                                        <option value="{{ $product->id }}">{{ $product->name }}</option>
+                                        <option value="{{ $product->id }}">{{ $product->name." (".$product->price.")" }}</option>
                                     @endforeach
                                 </select>
                                 @error('product_id')
@@ -72,7 +75,34 @@
                             </div>
                         </div>
 
-                        
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="date_achat">Date d'achat</label>
+                                <div class="form-control-wrap">
+                                    <input type="date" class="form-control @error('achat.*.date_achat') is-invalid @enderror" id="date_achat" name="achat[0][date_achat]" placeholder="Ex : 10">
+                                    @error('achat.*.date_achat')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="groupe_achats_id">Choisissez le groupe</label>
+                                <select class="form-select  @error('groupe_achats_id') is-invalid @enderror"
+                                        {{-- id="groupe_achats_id" --}}
+                                        name="groupe_achats_id">
+                                    <option value="" disabled selected> Sélectionnez un groupe </option>
+                                    @foreach ($groupes as $groupe)
+                                        <option value="{{ $groupe->id }}">{{ $groupe->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('groupe_achats_id')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
 
                         <div class="col-lg-2 d-flex align-items-end">
                             <button type="button" class="btn btn-icon btn-md btn-danger" title="Retirer un achat" data-repeater-delete>
@@ -84,7 +114,11 @@
             </div>
 
             <div class="pt-3">
-                <button type="button" class="btn btn-icon btn-md btn-warning" title="Ajouter un achat" data-repeater-create>
+                <button type="button"
+                        class="btn btn-icon btn-md btn-warning"
+                        title="Ajouter un achat"
+                        data-repeater-create
+                        onclick="add_new_achats()">
                     <em class="icon ni ni-plus"></em>
                 </button>
             </div>
@@ -110,6 +144,29 @@
 
     <script>
         repeater_bloc(["#create-form"])
+
+
+        $(document).ready(function() {
+            $('select').each(function() {
+                if (!$(this).hasClass('select2-hidden-accessible')) {
+                    $(this).select2();
+                }
+            });
+
+        });
+
+
+        function add_new_achats(){
+            setTimeout(function() {
+
+                $('select').each(function() {
+                    if (!$(this).hasClass('select2-hidden-accessible')) {
+                        $(this).select2();
+                    }
+                });
+            }, 100);
+        }
+
     </script>
 
 @endsection

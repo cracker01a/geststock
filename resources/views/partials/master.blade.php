@@ -18,6 +18,7 @@
     <!-- StyleSheets  -->
     <link rel="stylesheet" href="./assets/css/dashlite.css?ver=3.2.3">
     <link id="skin-default" rel="stylesheet" href="./assets/css/theme.css?ver=3.2.3">
+    @yield('styles')
 </head>
 
 <body class="nk-body bg-lighter npc-default has-sidebar ">
@@ -31,7 +32,7 @@
             <div class="nk-wrap ">
                 <!-- main header @s -->
                 @include('partials.header')
-                
+
                 <div class="nk-content ">
                     <div class="container-fluid">
                         <div class="nk-content-inner">

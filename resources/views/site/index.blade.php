@@ -15,7 +15,7 @@
         <thead>
             <tr class="nk-tb-item nk-tb-head">
                 <th class="nk-tb-col tb-col-sm"><span>Nom</span></th>
-                <th class="nk-tb-col"><span>Par</span></th>
+                {{-- <th class="nk-tb-col"><span>Par</span></th> --}}
                 <th class="nk-tb-col"><span>Date creation</span></th>
                 <th class="nk-tb-col"><span>Actif</span></th>
                 <th class="nk-tb-col nk-tb-col-tools">
@@ -35,11 +35,11 @@
                             </span>
                         </span>
                     </td>
-                    <td class="nk-tb-col">
+                    {{-- <td class="nk-tb-col">
                         <span class="tb-sub">
                             {{ $site->users->lastname.' '.$site->users->firstname }}
                         </span>
-                    </td>
+                    </td> --}}
                     <td class="nk-tb-col">
                         <span class="tb-sub">
                             {{ $site->created_at }}
@@ -101,7 +101,7 @@
         </tbody>
     </table>
 
-             
+
 
 @endsection
 

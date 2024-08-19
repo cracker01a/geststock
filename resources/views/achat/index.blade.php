@@ -2,13 +2,19 @@
 
 @section('content')
 
-@include('components.header', [
-    'title' => 'Liste des achats',
-    'btn'   => [
-        'label' => 'Ajouter',
-        'url'   => route('achat.create'),
-    ],
-])
+@if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'admin')
+    @include('components.header', [
+        'title' => 'Liste des achats',
+    ])
+@else
+    @include('components.header', [
+        'title' => 'Liste des achats',
+        'btn'   => [
+            'label' => 'Ajouter',
+            'url'   => route('achat.create'),
+        ],
+    ])
+@endif
 
 <table class="datatable-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
     <thead>
@@ -17,7 +23,6 @@
             <th class="nk-tb-col"><span>Prix Unitaire</span></th>
             <th class="nk-tb-col"><span>Quantité</span></th>
             <th class="nk-tb-col"><span>Prix Total</span></th>
-            
             <th class="nk-tb-col"><span>Utilisateur</span></th>
             <th class="nk-tb-col"><span>Actif</span></th>
             <th class="nk-tb-col nk-tb-col-tools">Actions</th>
@@ -50,7 +55,7 @@
                         {{ number_format($achat->unit_price * $achat->quantity, 0, '', ' ') }} F CFA
                     </span>
                 </td>
-             
+
                 <td class="nk-tb-col">
                     <span class="tb-sub">
                         @if($achat->user)
@@ -80,15 +85,15 @@
                                 </a>
                                 @if ($achat->status)
                                             <!-- Si l'achat est validé, afficher l'option pour le désactiver -->
-                                           
+
                                         @else
                                         <div class="dropdown-menu dropdown-menu-end">
                                             <ul class="link-list-opt no-bdr">
                                                 <!-- Option Modifier -->
-                                                
+
 
                                                 <!-- Option Valider / Non Valider -->
-                                            
+
                                                     <li>
                                                         <a href="{{ route('achat.edit', $achat) }}">
                                                             <em class="icon ni ni-edit"></em>

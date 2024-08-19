@@ -58,6 +58,8 @@
                             <option value="" disabled selected>-- Sélectionnez un statut --</option>
                             <option value="admin" {{ old('status', $user->status) == 'admin' ? 'selected' : '' }}>Admin</option>
                             <option value="super_admin" {{ old('status', $user->status) == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
+                            <option value="stock_manager" {{ old('status' , $user->status) == 'stock_manager' ? 'selected' : '' }}>Gestionnaire de stock</option>
+                            <option value="product_manager" {{ old('status' , $user->status) == 'product_manager' ? 'selected' : '' }}>Gestionnaire de produit</option>
                         </select>
                         @error('status')
                             <span class="error">{{ $message }}</span>
@@ -78,6 +80,27 @@
                         @enderror
                     </div>
                 </div>
+
+                <div class="col-lg-5 pt-2">
+                    <div class="form-group">
+                        <label class="form-label" for="site_id">Choisissez le site de l'utilisateur</label>
+                        <select class="form-select  @error('site_id') is-invalid @enderror"
+                                name="site_id">
+                            <option value="" disabled selected> Sélectionnez un site </option>
+                            @foreach ($sites as $site)
+
+                                <option value="{{ $site->id }}" {{ $site->id == $user->sites_id ? 'selected' : '' }}>
+                                    {{ $site->name }}
+                                </option>
+
+                            @endforeach
+                        </select>
+                        @error('site_id')
+                            <span class="error">{{ $message }}</span>
+                        @enderror
+                    </div>
+                </div>
+
             </div>
 
             <div class="pt-3 text-center">
@@ -93,4 +116,15 @@
 
 @section('scripts')
     <script src="./assets/js/libs/datatable-btns.js?ver=3.2.3"></script>
+
+    <script>
+        $(document).ready(function() {
+            $('select').each(function() {
+                if (!$(this).hasClass('select2-hidden-accessible')) {
+                    $(this).select2();
+                }
+            });
+
+        });
+    </script>
 @endsection

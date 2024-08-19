@@ -22,6 +22,35 @@
 
                 <div class="row py-3">
 
+                    <div class="col-lg-5">
+                        <div class="form-group">
+                            <label class="form-label" for="sites_id">Choisissez le site</label>
+                            <select class="form-select js-select2 @error('sites_id') is-invalid @enderror"
+                                    data-search="on"
+                                    name="sites_id">
+
+                                @if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'admin')
+
+                                    <option value="" disabled selected> Sélectionnez un site </option>
+                                    @foreach ($sites as $site)
+                                        <option value="{{ $site->id }}">{{ $site->name }}</option>
+                                    @endforeach
+
+                                @else
+
+                                    <option value="{{ Auth::user()->site->id }}">
+                                        {{ Auth::user()->site->name }}
+                                    </option>
+
+                                @endif
+
+                            </select>
+                            @error('sites_id')
+                                <span class="error">{{ $message }}</span>
+                            @enderror
+                        </div>
+                    </div>
+
                     <div class="col-lg-6">
                         <div class="form-group">
                             <label class="form-label" for="name">Nom</label>

@@ -35,14 +35,18 @@ class SiteController extends Controller
 
         foreach ($sites as $site) {
 
-            $name   = mb_strtoupper($site['name']);
+            if ($site['name']) {
 
-            $create_site = Site::create([
-                'name'      => strtoupper($name),
-                'users_id'  => Auth::id(),
-            ]);
+                $name  = mb_strtoupper($site['name']);
 
-            if ($create_site) $create = $create + 1;
+                $create_site = Site::create([
+                    'name'      => strtoupper($name),
+                    // 'users_id'  => Auth::id(),
+                ]);
+
+                if ($create_site) $create = $create + 1;
+
+            }
 
         }
 

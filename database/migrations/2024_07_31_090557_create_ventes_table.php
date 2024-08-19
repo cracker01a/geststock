@@ -12,20 +12,22 @@ return new class extends Migration
     public function up()
     {
         Schema::create('ventes', function (Blueprint $table) {
+
             $table->id();
-            $table->unsignedBigInteger('product_id');
-            $table->unsignedBigInteger('achat_id');
-            $table->unsignedBigInteger('site_id');
+
+            $table->string('numero_achat')->unique()->nullable();
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
             $table->decimal('total_price', 8, 2);
             $table->enum('status', ['non validée', 'validée']);
             $table->date('vente_date');
-            $table->timestamps();
 
-            $table->foreign('product_id')->references('id')->on('products');
-            $table->foreign('achat_id')->references('id')->on('achats');
-            $table->foreign('site_id')->references('id')->on('sites');
+            $table->foreignId('sites_id')->constrained('sites')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('products_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('achats_id')->constrained('achats')->onDelete('cascade')->onUpdate('cascade');
+            $table->foreignId('users_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
+
+            $table->timestamps();
         });
     }
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Site;
 use Illuminate\Http\Request;
 use App\Models\User;
 
@@ -15,7 +16,7 @@ class UserController extends Controller
     {
         // Récupérer tous les utilisateurs
         $users = User::all();
-    
+
         // Passer les données à la vue
         return view('users.index', compact('users'));
     }
@@ -25,18 +26,19 @@ class UserController extends Controller
      */
     public function create()
     {
-        return view('users.create');
+        $sites = Site::where('isActive', true)->get();
+        return view('users.create' , compact('sites'));
     }
 
-    
 
-    
+
+
     /**
      * Store a newly created resource in storage.
      */
     public function store(Request $request)
     {
-       
+
         $users = $request->user;
         $create = 0;
 
@@ -47,17 +49,16 @@ class UserController extends Controller
             $email  = ($user['email']);
             $status  = ($user['status']);
             $isActive  = ($user['isActive']);
-           
+            $site_id  = ($user['site_id']);
 
-           
-
-
+            // dd($site_id);
             $create_user = User::create([
                 'firstname' => $firstname,
                 'lastname'   => $lastname,
                 'email' => $email,
                 'status' => $status,
                 'isActive' => $isActive,
+                'sites_id' => $site_id,
                 'password' => null, // Le mot de passe est défini à null
             ]);
 
@@ -86,9 +87,10 @@ class UserController extends Controller
     {
             // Récupérer l'utilisateur par son ID
         $user = User::findOrFail($id);
+        $sites = Site::where('isActive', true)->get();
 
         // Passer les données à la vue d'édition
-        return view('users.edit', compact('user'));
+        return view('users.edit', compact('user' , 'sites'));
     }
 
     /**
@@ -103,7 +105,9 @@ class UserController extends Controller
         'email' => 'required|email|unique:users,email,' . $id,
         'status' => 'required|string',
         'isActive' => 'required|boolean',
+        'site_id' => 'required',
     ]);
+
 
     // Trouver l'utilisateur par son ID
     $user = User::findOrFail($id);
@@ -115,6 +119,7 @@ class UserController extends Controller
         'email' => $validated['email'],
         'status' => $validated['status'],
         'isActive' => $validated['isActive'],
+        'sites_id' => $validated['site_id'],
         // Le mot de passe n'est pas mis à jour ici, il reste null
     ]);
 

@@ -8,15 +8,16 @@ use Illuminate\Database\Eloquent\Model;
 class achat extends Model
 {
     use HasFactory;
-   
 
-    protected $table = 'achats'; 
-    protected $primaryKey = 'id'; 
 
-   
-    protected $fillable = [
-        'site_id', 'product_id', 'quantity', 'users_id', 'unit_price', 'total_price','numero_achat', 
-    ];
+    protected $table = 'achats';
+    protected $guarded = ['id'];
+    // protected $primaryKey = 'id';
+
+
+    // protected $fillable = [
+    //     'site_id', 'product_id', 'quantity', 'users_id', 'unit_price', 'total_price','numero_achat',
+    // ];
 
     public function user()
     {
@@ -24,12 +25,12 @@ class achat extends Model
     }
     public function product()
     {
-        return $this->belongsTo(product::class, 'product_id');
+        return $this->belongsTo(product::class, 'products_id');
     }
 
     public function site()
     {
-        return $this->belongsTo(Site::class);
+        return $this->belongsTo(Site::class , 'sites_id');
     }
 
     // Calcule automatiquement le prix total
@@ -52,5 +53,8 @@ class achat extends Model
             $this->attributes['total_price'] = $value * $this->attributes['quantity'];
         }
     }
-    
+
+    public function groupe(){
+        return $this->belongsTo(GroupeAchat::class, 'groupe_achats_id' , 'id');
+    }
 }

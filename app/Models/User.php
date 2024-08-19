@@ -17,14 +17,15 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    protected $fillable = [
-        'firstname',
-        'lastname',
-        'email',
-        'status',
-        'isActive',
-        'password',
-    ];
+    // protected $fillable = [
+    //     'firstname',
+    //     'lastname',
+    //     'email',
+    //     'status',
+    //     'isActive',
+    //     'password',
+    // ];
+    protected $guarded = ['id'];
 
     /**
      * The attributes that should be hidden for serialization.
@@ -51,6 +52,6 @@ class User extends Authenticatable
     }
 
     public function site(){
-        return $this->hasMany(Product::class, 'users_id' , 'id');
+        return $this->belongsTo(Site::class, 'sites_id' , 'id');
     }
 }

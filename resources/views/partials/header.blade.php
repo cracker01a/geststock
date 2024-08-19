@@ -15,8 +15,8 @@
                                                     <em class="icon ni ni-user-alt"></em>
                                                 </div>
                                                 <div class="user-info d-none d-xl-block">
-                                                    <div class="user-status user-status-unverified">Unverified</div>
-                                                    <div class="user-name dropdown-indicator">Abu Bin Ishityak</div>
+                                                    <div class="user-status user-status-unverified">{{ Auth::user()->status }}</div>
+                                                    <div class="user-name dropdown-indicator">{{ Auth::user()->firstname.' '.Auth::user()->lastname }}</div>
                                                 </div>
                                             </div>
                                         </a>
@@ -34,7 +34,7 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="dropdown-inner">
+                                            {{-- <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
                                                         <a href="html/user-profile-regular.html">
@@ -43,7 +43,7 @@
                                                         </a>
                                                     </li>
                                                 </ul>
-                                            </div>
+                                            </div> --}}
                                             <div class="dropdown-inner">
                                                 <ul class="link-list">
                                                     <li>
