@@ -3,10 +3,10 @@
 @section('content')
 
 @include('components.header', [
-    'title' => "Liste des groupes d'achats",
+    'title' => "Liste des groupes de ventes",
     'btn'   => [
         'label' => 'Ajouter',
-        'url'   => route('achat.groupe.create'),
+        'url'   => route('groupe_ventes.create'),
     ],
 ])
 
@@ -20,7 +20,7 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($group_achats as $key => $groupe)
+        @foreach ($group_ventes as $key => $groupe)
             <tr class="nk-tb-item">
                 <td class="nk-tb-col tb-col-sm">
                     <span class="tb-product">
@@ -35,14 +35,17 @@
                 </td>
 
                 <td class="nk-tb-col nk-tb-col-tools">
-                    @if ($groupe->achats->isNotEmpty()) <!-- Vérifie si le groupe a des achats -->
+                    <ul class="nk-tb-actions gx-1 my-n1">
                         <li class="me-n1">
-                            <a href="#" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#modal-{{ $groupe->id }}">
-                                <em class="icon ni ni-eye"></em>
-                            </a>
+                            @if ($groupe->vente->isNotEmpty()) <!-- Vérifie si le groupe a des ventes -->
+                                <a href="#" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#modal-{{ $groupe->id }}">
+                                    <em class="icon ni ni-eye"></em>
+                                </a>
+                            @endif
                         </li>
-                    @endif
+                    </ul>
                 </td>
+
                 <td class="nk-tb-col nk-tb-col-tools">
                     <ul class="nk-tb-actions gx-1 my-n1">
                         <li class="me-n1">
@@ -53,18 +56,18 @@
                                 <div class="dropdown-menu dropdown-menu-end">
                                     <ul class="link-list-opt no-bdr">
                                         <li>
-                                            <a href="{{ route('achat.groupe.edit', $groupe) }}">
+                                            <a href="{{ route('groupe_ventes.edit', $groupe) }}">
                                                 <em class="icon ni ni-edit"></em>
                                                 <span>Modifier</span>
                                             </a>
                                         </li>
-                                        @if ($groupe->achat)
+                                        @if ($groupe->vente)
                                             <li>
-                                                <a href="{{ route('achat.groupe.delete', $groupe->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $groupe->id }}').submit();">
+                                                <a href="{{ route('groupe_ventes.delete', $groupe->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $groupe->id }}').submit();">
                                                     <em class="icon ni ni-trash"></em>
                                                     <span>Supprimer</span>
                                                 </a>
-                                                <form id="delete-form-{{ $groupe->id }}" action="{{ route('achat.groupe.delete', $groupe->id) }}" method="POST" style="display: none;">
+                                                <form id="delete-form-{{ $groupe->id }}" action="{{ route('groupe_ventes.delete', $groupe->id) }}" method="POST" style="display: none;">
                                                     @csrf
                                                     @method('DELETE')
                                                 </form>
@@ -78,35 +81,35 @@
                 </td>
             </tr>
 
-            <!-- Modal pour afficher les détails des achats -->
+            <!-- Modal pour afficher les détails des ventes -->
             <div class="modal fade" id="modal-{{ $groupe->id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $groupe->id }}" aria-hidden="true">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="modalLabel{{ $groupe->id }}">Détails des Achats - {{ $groupe->name }}</h5>
+                            <h5 class="modal-title" id="modalLabel{{ $groupe->id }}">Détails des Ventes - {{ $groupe->name }}</h5>
                             <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
                         </div>
                         <div class="modal-body">
                             <div class="accordion" id="accordion-{{ $groupe->id }}">
-                                @foreach ($groupe->achats as $achat)
+                                @foreach ($groupe->vente as $vente)
                                     <div class="accordion-item">
-                                        <h2 class="accordion-header" id="heading{{ $achat->id }}">
-                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $achat->id }}" aria-expanded="true" aria-controls="collapse{{ $achat->id }}">
-                                                {{ $achat->product->name }} <!-- Titre de l'achat -->
+                                        <h2 class="accordion-header" id="heading{{ $vente->id }}">
+                                            <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ $vente->id }}" aria-expanded="true" aria-controls="collapse{{ $vente->id }}">
+                                                {{ $vente->product->name }} <!-- Titre de la vente -->
                                             </button>
                                         </h2>
-                                        <div id="collapse{{ $achat->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $achat->id }}" data-bs-parent="#accordion-{{ $groupe->id }}">
+                                        <div id="collapse{{ $vente->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $vente->id }}" data-bs-parent="#accordion-{{ $groupe->id }}">
                                             <div class="accordion-body">
-                                                <p><strong>Numéro d'achat :</strong> {{ $achat->numero_achat }}</p>
-                                                <p><strong>Date d'achat :</strong> {{ $achat->date_achat }}</p>
-                                                <p><strong>Prix unitaire :</strong> {{ number_format($achat->unit_price, 0, '', ' ') }} F CFA</p>
-                                                <p><strong>Quantité :</strong> {{ $achat->quantity }}</p>
-                                                <p><strong>Montant total :</strong> {{ number_format($achat->total_price, 0, '', ' ') }} F CFA</p>
-                                                <p><strong>Site :</strong> {{ $achat->site->name }}</p>
-                                                <p><strong>Utilisateur :</strong> {{ $achat->user ? $achat->user->lastname . ' ' . $achat->user->firstname : 'Utilisateur non trouvé' }}</p>
-                                                <p><strong>Statut :</strong> {{ $achat->status ? 'Validé' : 'Non validé' }}</p>
+                                                <p><strong>Numéro de vente :</strong> {{ $vente->numero_vente }}</p>
+                                                <p><strong>Date de vente :</strong> {{ $vente->date_vente }}</p>
+                                                <p><strong>Prix unitaire :</strong> {{ number_format($vente->price, 0, '', ' ') }} F CFA</p>
+                                                <p><strong>Quantité :</strong> {{ $vente->quantity }}</p>
+                                                <p><strong>Montant total :</strong> {{ number_format($vente->total_price, 0, '', ' ') }} F CFA</p>
+                                                <p><strong>Site :</strong> {{ $vente->site->name }}</p>
+                                                <p><strong>Utilisateur :</strong> {{ $vente->user ? $vente->user->lastname . ' ' . $vente->user->firstname : 'Utilisateur non trouvé' }}</p>
+                                                <p><strong>Statut :</strong> {{ $vente->status ? 'Validé' : 'Non validé' }}</p>
                                             </div>
                                         </div>
                                     </div>

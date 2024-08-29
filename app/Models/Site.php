@@ -33,5 +33,9 @@ class Site extends Model
     {
         return $this->hasMany(Vente::class, 'sites_id' , 'id');
     }
+    public function groupeAchat()
+    {
+        return $this->belongsTo(GroupeAchat::class, 'groupe_achats_id');
+    }
     
 }

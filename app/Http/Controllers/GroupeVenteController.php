@@ -2,14 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\GroupeAchat;
-use App\Models\Achat;
-use App\Models\Site;
+
+use App\Models\GroupeVente;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
-class GroupeAchatController extends Controller
+class GroupeVenteController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,21 +16,17 @@ class GroupeAchatController extends Controller
     {
         // $group_achats = GroupeAchat::orderByDesc('created_at')->get();
         // Récupérer les groupes d'achat créés par l'utilisateur authentifié
-        // $groupe_achats = GroupeAchat::with('achats')->orderByDesc('created_at')->get();
-       
-        // $group_achats = GroupeAchat::where('users_id', Auth::id())
+        // $group_ventes = GroupeVente::where('users_id', Auth::id())
         // ->orderByDesc('created_at')
         // ->get();
-        
-        
-        // return view('achat.groupe.index' , compact('group_achats','groupe_achats'));
-        $group_achats = GroupeAchat::with('achats.product', 'achats.site', 'achats.user', 'achats.groupeAchat') 
+        $group_ventes = GroupeVente::with('ventes.product', 'ventes.site', 'ventes.user', 'ventes.groupeVente')
         ->where('users_id', Auth::id())
         ->orderByDesc('created_at')
         ->get();
 
-             return view('achat.groupe.index', compact('group_achats'));
+    return view('ventes.groupe.index', compact('group_ventes'));
 
+       
     }
 
     /**
@@ -40,7 +34,7 @@ class GroupeAchatController extends Controller
      */
     public function create()
     {
-        return view('achat.groupe.create');
+        return view('ventes.groupe.create');
     }
 
     /**
@@ -48,19 +42,19 @@ class GroupeAchatController extends Controller
      */
     public function store(Request $request)
     {
-        $groupe_achats = $request->groupe_achat;
+        $groupe_ventes = $request->groupe_vente;
         $create = 0;
 
           // Récupérer l'utilisateur authentifié
              $user = Auth::user();
              $siteId = $user->sites_id;
-        foreach ($groupe_achats as $groupe) {
+        foreach ($groupe_ventes as $groupe) {
 
             if ($groupe['name']) {
 
                 $name  = mb_strtoupper($groupe['name']);
               
-                $create_groupe = GroupeAchat::create([
+                $create_groupe = GroupeVente::create([
                     'name'      => strtoupper($name),
                     'users_id'  => Auth::id(),
                 
@@ -75,9 +69,9 @@ class GroupeAchatController extends Controller
         }
 
         if (isset($create_groupe)) {
-            return redirect()->route('achat.groupe.index')->with(['success' => "Vous venez d'enregistrer ".$create." groupe(s)."]);
+            return redirect()->route('groupe_ventes.index')->with(['success' => "Vous venez d'enregistrer ".$create." groupe(s)."]);
         }else {
-            return redirect()->route('achat.groupe.index')->with(['info' => "Aucun groupe ajouté."]);
+            return redirect()->route('groupe_ventes.index')->with(['info' => "Aucun groupe ajouté."]);
         }
     }
 
@@ -94,8 +88,8 @@ class GroupeAchatController extends Controller
      */
     public function edit(string $id)
     {
-        $groupe = GroupeAchat::find($id);
-        return view('achat.groupe.edit' , compact('groupe'));
+        $groupe = GroupeVente::find($id);
+        return view('Ventes.groupe.edit' , compact('groupe'));
     }
 
     /**
@@ -107,11 +101,11 @@ class GroupeAchatController extends Controller
 
         $request->validate($rules);
 
-        $groupe = GroupeAchat::find($id);
+        $groupe = GroupeVente::find($id);
 
         if($groupe){
             // Verify if new subcategorie already exists
-            $exist_site = GroupeAchat::where('name', $request->name)->first();
+            $exist_site = GroupeVente::where('name', $request->name)->first();
 
             if($exist_site && $exist_site->id != $groupe->id){
                 return redirect()->back()
@@ -122,10 +116,10 @@ class GroupeAchatController extends Controller
 
             $groupe->update($data);
 
-            return redirect()->route('achat.groupe.index')
+            return redirect()->route('groupe_ventes.index')
                             ->with('success', 'Groupe modifiée avec succès');
         }else{
-            return redirect()->route('achat.groupe.index')
+            return redirect()->route('groupe_ventes.index')
                             ->with('error', 'Ce groupe n\'existe pas');
         }
     }
@@ -135,13 +129,13 @@ class GroupeAchatController extends Controller
      */
     public function destroy(string $id)
     {
-        if ($groupe = GroupeAchat::find($id)) {
+        if ($groupe = GroupeVente::find($id)) {
             // Supprimer le groupe
             $groupe->delete();
 
-            return redirect()->route('achat.groupe.index')->with('success', 'Groupe supprimé avec succès.');
+            return redirect()->route('groupe_ventes.index')->with('success', 'Groupe supprimé avec succès.');
         } else {
-            return redirect()->route('achat.groupe.index')->with('error', 'Groupe non trouvé.');
+            return redirect()->route('groupe_ventes.index')->with('error', 'Groupe non trouvé.');
         }
     }
 }

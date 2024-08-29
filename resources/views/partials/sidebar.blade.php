@@ -91,7 +91,7 @@
                                 </li>
                                 @if ( Auth::user()->status == 'stock_manager')
                                     <li class="nk-menu-item">
-                                        <a href="{{ route('achat.groupe.index') }}" class="nk-menu-link"><span class="nk-menu-text">Goupe</span></a>
+                                        <a href="{{ route('achat.groupe.index') }}" class="nk-menu-link"><span class="nk-menu-text">Groupe</span></a>
                                     </li>
                                     <li class="nk-menu-item">
                                         <a href="{{ route('achat.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
@@ -111,6 +111,9 @@
                                     <a href="{{ route('ventes.index') }}" class="nk-menu-link"><span class="nk-menu-text">Liste</span></a>
                                 </li>
                                 @if ( Auth::user()->status == 'stock_manager')
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('groupe_ventes.index') }}" class="nk-menu-link"><span class="nk-menu-text">Groupe</span></a>
+                                    </li>
                                     <li class="nk-menu-item">
                                         <a href="{{ route('ventes.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
                                     </li>

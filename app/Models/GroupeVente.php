@@ -5,24 +5,22 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class GroupeAchat extends Model
+class GroupeVente extends Model
 {
     use HasFactory;
 
-    protected $table = 'groupe_achats';
+    protected $table = 'groupe_ventes';
     protected $guarded = ['id'];
 
-    public function achat()
+    public function vente()
     {
-        return $this->hasMany(Achat::class, 'groupe_achats_id' , 'id');
+        return $this->hasMany(Vente::class, 'groupe_ventes_id', 'id');
     }
 
-    
-   public function user()
+    public function user()
     {
-        return $this->belongsTo(User::class, 'user_id');
+        return $this->belongsTo(User::class, 'users_id');
     }
-
     public function achats()
     {
         return $this->hasMany(Achat::class, 'groupe_achats_id'); 
@@ -31,5 +29,8 @@ class GroupeAchat extends Model
     {
         return $this->belongsTo(Site::class, 'sites_id');
     }
-
+    public function ventes() 
+    {
+        return $this->hasMany(Vente::class, 'groupe_ventes_id', 'id');
+    }
 }

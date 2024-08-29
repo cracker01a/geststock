@@ -30,7 +30,7 @@ class achat extends Model
 
     public function site()
     {
-        return $this->belongsTo(Site::class , 'sites_id');
+        return $this->belongsTo(Site::class, 'sites_id');
     }
 
     // Calcule automatiquement le prix total
@@ -56,5 +56,10 @@ class achat extends Model
 
     public function groupe(){
         return $this->belongsTo(GroupeAchat::class, 'groupe_achats_id' , 'id');
+    }
+
+    public function groupeAchat() 
+    {
+        return $this->belongsTo(GroupeAchat::class, 'groupe_achats_id'); // Assurez-vous que le champ est correct
     }
 }

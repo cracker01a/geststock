@@ -26,6 +26,7 @@
             <th class="nk-tb-col"><span>Prix Unitaire</span></th>
             <th class="nk-tb-col"><span>Prix Total</span></th>
             <th class="nk-tb-col"><span>Status</span></th>
+            <th class="nk-tb-col"><span></span></th>
             <th class="nk-tb-col"><span>Date de Vente</span></th>
             <th class="nk-tb-col nk-tb-col-tools">Actions</th>
         </tr>
@@ -58,6 +59,17 @@
                         <span class="dot bg-warning d-sm-none"></span>
                         <span class="badge badge-sm badge-dot has-bg bg-warning d-none d-sm-inline-flex">En Attente</span>
                     @endif
+                </td>
+                <td class="nk-tb-col nk-tb-col-tools">
+                    <ul class="nk-tb-actions gx-1 my-n1">
+                        <li class="me-n1">
+                           
+                            <a href="#" class="btn btn-icon" data-bs-toggle="modal" data-bs-target="#modal-{{ $vente->id }}">
+                                <em class="icon ni ni-eye"></em>
+                            </a>
+                        </li>
+                       
+                    </ul>
                 </td>
                 <td class="nk-tb-col">
                     <span class="tb-sub">{{ $vente->vente_date }}</span>
@@ -113,6 +125,31 @@
                     </ul>
                 </td>
             </tr>
+            <!-- Modal pour afficher les détails -->
+            <div class="modal fade" id="modal-{{ $vente->id }}" tabindex="-1" role="dialog" aria-labelledby="modalLabel{{ $vente->id }}" aria-hidden="true">
+                <div class="modal-dialog" role="document">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h5 class="modal-title" id="modalLabel{{ $vente->id }}">Détails de la vente</h5>
+                            <button type="button" class="close" data-bs-dismiss="modal" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                        <div class="modal-body">
+                            <p><strong>Produit :</strong> {{ $vente->product->name }}</p>
+                            <p><strong>Site :</strong> {{ $vente->site->name }}</p>
+                            <p><strong>Quantité :</strong> {{ $vente->quantity }}</p>
+                            <p><strong>Prix unitaire :</strong> {{ number_format($vente->price, 0, '', ' ') }} F CFA</p>
+                            <p><strong>Montant total :</strong> {{ number_format($vente->total_price, 0, '', ' ') }} F CFA</p>
+                            <p><strong>Date de vente :</strong> {{ $vente->vente_date }}</p>
+                            <p><strong>Status :</strong> {{ $vente->status === 'validée' ? 'Complété' : 'En Attente' }}</p>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Fermer</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
         @endforeach
     </tbody>
 </table>

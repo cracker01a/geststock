@@ -19,7 +19,7 @@
         <div id="error-message" class="alert alert-danger" style="display: none;"></div>
 
         <!-- Formulaire de vente -->
-        <form action="{{ route('ventes.update', $vente->id) }}" method="POST" id="vente-form">
+        <form action="{{ route('ventes.updateCustom', $vente->id) }}" method="POST" id="vente-form">
             @csrf
             @method('PUT')
 
@@ -29,19 +29,15 @@
                     <div class="row py-3">
                         <!-- Sélection du site -->
                         <div class="col-lg-3">
-                            <div class="form-group">
+                        <div class="form-group">
                                 <label class="form-label" for="site_id">Site</label>
-                                <div class="form-control-wrap">
-                                    <select name="site_id" id="site_id" class="form-control @error('site_id') is-invalid @enderror">
-                                        <option value="" disabled>-- Sélectionnez un site --</option>
-                                        @foreach($sites as $site)
-                                            <option value="{{ $site->id }}" {{ $vente->site_id == $site->id ? 'selected' : '' }}>{{ $site->name }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('site_id')
-                                        <span class="error">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                                
+                                
+                                <input type="text"    class="form-control" value=" {{ Auth::user()->site->name }}">
+                              
+                              
+                                <input type="hidden" name="site_id" class="form-control" value="{{ Auth::user()->site->id }} " readonly>
+
                             </div>
                         </div>
 

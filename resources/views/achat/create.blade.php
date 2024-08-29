@@ -18,7 +18,7 @@
             <div data-repeater-list="achat">
                 <div data-repeater-item>
                     <div class="row py-3">
-                        <div class="col-lg-5">
+                        <!-- <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-label" for="site_id">Choisissez le site</label>
                                 <select class="form-select  @error('site_id') is-invalid @enderror"
@@ -32,17 +32,31 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
+                            
+                        </div>  -->
+                   
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="site_id">Site</label>
+                                
+                                
+                                <input type="text"    class="form-control" value=" {{ Auth::user()->site->name }}" readonly>
+                              
+                              
+                                <input type="hidden" name="site_id" class="form-control" value="{{ Auth::user()->site->id }} " readonly>
+
+                            </div>
                         </div>
+
 
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-label" for="product_id">Choisissez le produit</label>
-                                <select class="form-select  @error('product_id') is-invalid @enderror"
-                                        {{-- id="product_id" --}}
-                                        name="product_id">
-                                    <option value="" disabled selected> Sélectionnez un produit </option>
+                                <select class="form-select @error('product_id') is-invalid @enderror" name="product_id">
+                                    <option value="" disabled selected>Sélectionnez un produit</option>
                                     @foreach ($products as $product)
-                                        <option value="{{ $product->id }}">{{ $product->name." (".$product->price.")" }}</option>
+                                        <option value="{{ $product->id }}">{{ $product->name . " (" . $product->price . ")" }}</option>
                                     @endforeach
                                 </select>
                                 @error('product_id')
@@ -50,6 +64,7 @@
                                 @enderror
                             </div>
                         </div>
+
 
                         <div class="col-lg-5">
                             <div class="form-group">
@@ -102,7 +117,7 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>
+                        </div>  
 
                         <div class="col-lg-2 d-flex align-items-end">
                             <button type="button" class="btn btn-icon btn-md btn-danger" title="Retirer un achat" data-repeater-delete>

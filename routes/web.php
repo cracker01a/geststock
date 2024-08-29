@@ -8,6 +8,7 @@ use App\Http\Controllers\HomeController;
 use App\Http\Controllers\SiteController;
 use App\Http\Controllers\Achatcontroller;
 use App\Http\Controllers\GroupeAchatController;
+use App\Http\Controllers\GroupeVenteController;
 use App\Http\Controllers\VenteController;
 
 use App\Http\Controllers\UserController;
@@ -58,13 +59,14 @@ Route::group(['middleware' => ['auth']] , function(){
 
     // Routes for achat
     // Resource routes for 'achat' excluding the 'show' method
+    Route::get('/achat/liste/{sites_id?}', [AchatController::class, 'getData1'])->name('achat.get_data1');
     Route::resource('achat', AchatController::class)->except(['show']);
     Route::controller(AchatController::class)->prefix('achat')
                                                 ->name('achat.')
                                                 ->group(function () {
         Route::get('/enabled/{id}', 'enabled')->name('enabled');
         Route::delete('/delete/{id}', 'destroy')->name('delete');
-
+                                                 
 
         Route::resource('groupe', GroupeAchatController::class)->except(['show']);
         Route::delete('/groupe/delete/{id}', 'destroy')->name('groupe.delete');
@@ -74,13 +76,21 @@ Route::group(['middleware' => ['auth']] , function(){
     Route::resource('ventes', VenteController::class)->except(['show']);
     Route::get('/products/{id}/quantity', [ProductController::class , 'getQuantity'])->name('products.quantity');
 
+    // / Routes for 'groupe_ventes'
+    Route::resource('groupe_ventes', GroupeVenteController::class)->except(['show']);
+    Route::delete('/groupe_ventes/delete/{id}', [GroupeVenteController::class, 'destroy'])->name('groupe_ventes.delete');
+
     Route::controller(VenteController::class)->prefix('ventes')
         ->name('ventes.')
         ->group(function () {
             Route::get('/{vente}/edit', 'edit')->name('edit');
-            Route::put('/{vente}', 'update')->name('update');
+            // Route::put('/{vente}', 'update')->name('update');
+            Route::put('/{vente}', 'updateCustom')->name('updateCustom'); 
             Route::get('/enabled/{id}', 'enabled')->name('enabled');
             Route::delete('/delete/{id}', 'destroy')->name('delete');
+
+
+
         });
 
     // Route for getting the price of a product
