@@ -16,20 +16,16 @@ class GroupeAchatController extends Controller
      */
     public function index()
     {
-        // $group_achats = GroupeAchat::orderByDesc('created_at')->get();
-        // Récupérer les groupes d'achat créés par l'utilisateur authentifié
-        // $groupe_achats = GroupeAchat::with('achats')->orderByDesc('created_at')->get();
-       
-        // $group_achats = GroupeAchat::where('users_id', Auth::id())
-        // ->orderByDesc('created_at')
-        // ->get();
-        
-        
-        // return view('achat.groupe.index' , compact('group_achats','groupe_achats'));
-        $group_achats = GroupeAchat::with('achats.product', 'achats.site', 'achats.user', 'achats.groupeAchat') 
-        ->where('users_id', Auth::id())
-        ->orderByDesc('created_at')
-        ->get();
+        if (Auth::user()->status == 'stock_manager') {
+            $group_achats = GroupeAchat::with('achats.product', 'achats.site', 'achats.user', 'achats.groupeAchat')
+                ->where('users_id', Auth::id())
+                ->orderByDesc('created_at')
+                ->get();
+        }else{
+            $group_achats = GroupeAchat::with('achats.product', 'achats.site', 'achats.user', 'achats.groupeAchat')
+                ->orderByDesc('created_at')
+                ->get();
+        }
 
              return view('achat.groupe.index', compact('group_achats'));
 
@@ -59,15 +55,15 @@ class GroupeAchatController extends Controller
             if ($groupe['name']) {
 
                 $name  = mb_strtoupper($groupe['name']);
-              
+
                 $create_groupe = GroupeAchat::create([
                     'name'      => strtoupper($name),
                     'users_id'  => Auth::id(),
-                
+
                     'sites_id'  => $siteId, // Récupérer le site_id de l'utilisateur
-                   
+
                 ]);
-        
+
                 if ($create_groupe) $create = $create + 1;
 
             }

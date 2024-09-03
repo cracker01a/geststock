@@ -14,19 +14,21 @@ class GroupeVenteController extends Controller
      */
     public function index()
     {
-        // $group_achats = GroupeAchat::orderByDesc('created_at')->get();
-        // Récupérer les groupes d'achat créés par l'utilisateur authentifié
-        // $group_ventes = GroupeVente::where('users_id', Auth::id())
-        // ->orderByDesc('created_at')
-        // ->get();
-        $group_ventes = GroupeVente::with('ventes.product', 'ventes.site', 'ventes.user', 'ventes.groupeVente')
-        ->where('users_id', Auth::id())
-        ->orderByDesc('created_at')
-        ->get();
+        if (Auth::user()->status == 'stock_manager') {
+            $group_ventes = GroupeVente::with('ventes.product', 'ventes.site', 'ventes.user', 'ventes.groupeVente')
+                ->where('users_id', Auth::id())
+                ->orderByDesc('created_at')
+                ->get();
+        }else{
+            $group_ventes = GroupeVente::with('ventes.product', 'ventes.site', 'ventes.user', 'ventes.groupeVente')
+                ->orderByDesc('created_at')
+                ->get();
+        }
+
 
     return view('ventes.groupe.index', compact('group_ventes'));
 
-       
+
     }
 
     /**
@@ -53,15 +55,15 @@ class GroupeVenteController extends Controller
             if ($groupe['name']) {
 
                 $name  = mb_strtoupper($groupe['name']);
-              
+
                 $create_groupe = GroupeVente::create([
                     'name'      => strtoupper($name),
                     'users_id'  => Auth::id(),
-                
+
                     'sites_id'  => $siteId, // Récupérer le site_id de l'utilisateur
-                   
+
                 ]);
-        
+
                 if ($create_groupe) $create = $create + 1;
 
             }

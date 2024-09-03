@@ -9,9 +9,10 @@ class Vente extends Model
 {
     use HasFactory;
 
-    protected $fillable = [
-        'products_id', 'achats_id', 'sites_id', 'quantity', 'price', 'total_price', 'status', 'vente_date', 'numero_vente' , 'groupe_ventes_id' ,'users_id' ,
-    ];
+    // protected $fillable = [
+    //     'products_id', 'achats_id', 'sites_id', 'quantity', 'price', 'total_price', 'status', 'vente_date', 'numero_vente' , 'groupe_ventes_id' ,'users_id' ,
+    // ];
+    protected $guarded = ["id"];
 
     public function product()
     {
@@ -31,10 +32,10 @@ class Vente extends Model
     {
         return $this->belongsTo(GroupeVente::class, 'groupe_ventes_id');
     }
-    public function user() 
+    public function user()
     {
-        return $this->belongsTo(User::class, 'users_id'); 
+        return $this->belongsTo(User::class, 'users_id');
     }
-   
+
 
 }

@@ -15,7 +15,7 @@ return new class extends Migration
 
             $table->id();
 
-            $table->string('numero_achat')->unique()->nullable();
+            $table->string('numero_vente')->unique()->nullable();
             $table->integer('quantity');
             $table->decimal('price', 8, 2);
             $table->decimal('total_price', 8, 2);
@@ -24,7 +24,7 @@ return new class extends Migration
 
             $table->foreignId('sites_id')->constrained('sites')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('products_id')->constrained('products')->onDelete('cascade')->onUpdate('cascade');
-            $table->foreignId('achats_id')->constrained('achats')->onDelete('cascade')->onUpdate('cascade');
+            // $table->foreignId('achats_id')->constrained('achats')->onDelete('cascade')->onUpdate('cascade');
             $table->foreignId('users_id')->constrained('users')->onDelete('cascade')->onUpdate('cascade');
 
             $table->timestamps();

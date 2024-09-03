@@ -25,6 +25,11 @@ class ProductController extends Controller
         return view('product.index' , compact('products' , 'sites'));
     }
 
+    public function getPrice($id){
+
+        $product = Product::find($id);
+        return response()->json(['price' => $product->price]);
+    }
     public function getData($sites_id=null){
 
         if (!$sites_id || $sites_id == 'all') {

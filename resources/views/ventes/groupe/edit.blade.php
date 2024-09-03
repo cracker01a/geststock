@@ -7,14 +7,14 @@
         'title' => "Modification du groupe d'achat « ".$groupe->name." »",
         'back'   => [
             'label' => "Liste des groupes de vente",
-            'url'   => route('groupe_ventes.index'),
+            'url'   => route('ventes.groupe_ventes.index'),
         ],
     ])
 
     <div class="card">
         <div class="card-body">
 
-            <form action="{{ route('groupe_ventes.update' , $groupe) }}" method="POST" id="create-form">
+            <form action="{{ route('ventes.groupe_ventes.update' , $groupe) }}" method="POST" id="create-form">
 
                 @csrf
                 @method('PUT')

@@ -1,5 +1,5 @@
 <script>
-    let achat_table = $('#achat_table').DataTable();
+    let achat_table = $('#vente_table').DataTable();
 
 $(document).ready(function() {
     load_table()
@@ -10,12 +10,12 @@ function load_table(){
 
     var sites_id = $('#sites_id').val()
 
-    var route = "{{ route('achat.get_data' , [':sites_id']) }}"
+    var route = "{{ route('ventes.get_data' , [':sites_id']) }}"
         route = route.replace(':sites_id' , sites_id)
 
     achat_table.destroy(); // Supprimer le contenu de la balise tbody
 
-    achat_table = $('#achat_table').DataTable({
+    achat_table = $('#vente_table').DataTable({
         // stateSave: true,
         processing: true,
         serverSide: false,
@@ -37,7 +37,7 @@ function load_table(){
             {data: 'id', name: 'id'},
             {data: 'num', name: 'num'},
             {data: 'name', name: 'name'},
-            {data: 'unit_price', name: 'unit_price'},
+            {data: 'price', name: 'price'},
             {data: 'quantity', name: 'quantity'},
             {data: 'total_price', name: 'total_price'},
             {data: 'date', name: 'date'},

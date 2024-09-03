@@ -6,14 +6,14 @@
         'title' => "Ajouter un groupe de vente",
         'back'   => [
             'label' => 'Liste des ventes',
-            'url'   => route('groupe_ventes.create'),
+            'url'   => route('ventes.groupe_ventes.create'),
         ],
     ])
 
     <div class="card">
         <div class="card-body">
 
-            <form action="{{ route('groupe_ventes.store') }}" method="POST" id="create-form">
+            <form action="{{ route('ventes.groupe_ventes.store') }}" method="POST" id="create-form">
 
                 @csrf
 

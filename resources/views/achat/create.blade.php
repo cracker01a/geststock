@@ -18,32 +18,12 @@
             <div data-repeater-list="achat">
                 <div data-repeater-item>
                     <div class="row py-3">
-                        <!-- <div class="col-lg-5">
-                            <div class="form-group">
-                                <label class="form-label" for="site_id">Choisissez le site</label>
-                                <select class="form-select  @error('site_id') is-invalid @enderror"
-                                        name="site_id">
-                                    <option value="" disabled selected> Sélectionnez un site </option>
-                                    @foreach ($sites as $site)
-                                        <option value="{{ $site->id }}">{{ $site->name }}</option>
-                                    @endforeach
-                                </select>
-                                @error('site_id')
-                                    <span class="error">{{ $message }}</span>
-                                @enderror
-                            </div>
-                            
-                        </div>  -->
-                   
 
                         <div class="col-lg-5">
                             <div class="form-group">
+
                                 <label class="form-label" for="site_id">Site</label>
-                                
-                                
-                                <input type="text"    class="form-control" value=" {{ Auth::user()->site->name }}" readonly>
-                              
-                              
+                                <input type="text" class="form-control" value=" {{ Auth::user()->site->name }}" readonly>
                                 <input type="hidden" name="site_id" class="form-control" value="{{ Auth::user()->site->id }} " readonly>
 
                             </div>
@@ -105,8 +85,8 @@
                         <div class="col-lg-5">
                             <div class="form-group">
                                 <label class="form-label" for="groupe_achats_id">Choisissez le groupe</label>
-                                <select class="form-select  @error('groupe_achats_id') is-invalid @enderror"
-                                        {{-- id="groupe_achats_id" --}}
+                                <select class="form-select
+                                        @error('groupe_achats_id') is-invalid @enderror"
                                         name="groupe_achats_id">
                                     <option value="" disabled selected> Sélectionnez un groupe </option>
                                     @foreach ($groupes as $groupe)
@@ -117,7 +97,7 @@
                                     <span class="error">{{ $message }}</span>
                                 @enderror
                             </div>
-                        </div>  
+                        </div>
 
                         <div class="col-lg-2 d-flex align-items-end">
                             <button type="button" class="btn btn-icon btn-md btn-danger" title="Retirer un achat" data-repeater-delete>
@@ -169,7 +149,6 @@
             });
 
         });
-
 
         function add_new_achats(){
             setTimeout(function() {

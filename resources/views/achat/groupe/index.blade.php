@@ -2,13 +2,19 @@
 
 @section('content')
 
-@include('components.header', [
-    'title' => "Liste des groupes d'achats",
-    'btn'   => [
-        'label' => 'Ajouter',
-        'url'   => route('achat.groupe.create'),
-    ],
-])
+@if (Auth::user()->status == 'super_admin' || Auth::user()->status == 'admin')
+    @include('components.header', [
+        'title' => "Liste des groupes d'achats",
+    ])
+@else
+    @include('components.header', [
+        'title' => "Liste des groupes d'achats",
+        'btn'   => [
+            'label' => 'Ajouter',
+            'url'   => route('achat.groupe.create'),
+        ],
+    ])
+@endif
 
 <table class="datatable-init nowrap nk-tb-list is-separate" data-auto-responsive="false">
     <thead>
@@ -44,37 +50,44 @@
                     @endif
                 </td>
                 <td class="nk-tb-col nk-tb-col-tools">
-                    <ul class="nk-tb-actions gx-1 my-n1">
-                        <li class="me-n1">
-                            <div class="dropdown">
-                                <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
-                                    <em class="icon ni ni-more-h"></em>
-                                </a>
-                                <div class="dropdown-menu dropdown-menu-end">
-                                    <ul class="link-list-opt no-bdr">
-                                        <li>
-                                            <a href="{{ route('achat.groupe.edit', $groupe) }}">
-                                                <em class="icon ni ni-edit"></em>
-                                                <span>Modifier</span>
-                                            </a>
-                                        </li>
-                                        @if ($groupe->achat)
+
+                    @if (Auth::user()->status == 'stock_manager')
+
+                        <ul class="nk-tb-actions gx-1 my-n1">
+                            <li class="me-n1">
+                                <div class="dropdown">
+                                    <a href="#" class="dropdown-toggle btn btn-icon btn-trigger" data-bs-toggle="dropdown">
+                                        <em class="icon ni ni-more-h"></em>
+                                    </a>
+                                    <div class="dropdown-menu dropdown-menu-end">
+
+                                        <ul class="link-list-opt no-bdr">
                                             <li>
-                                                <a href="{{ route('achat.groupe.delete', $groupe->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $groupe->id }}').submit();">
-                                                    <em class="icon ni ni-trash"></em>
-                                                    <span>Supprimer</span>
+                                                <a href="{{ route('achat.groupe.edit', $groupe) }}">
+                                                    <em class="icon ni ni-edit"></em>
+                                                    <span>Modifier</span>
                                                 </a>
-                                                <form id="delete-form-{{ $groupe->id }}" action="{{ route('achat.groupe.delete', $groupe->id) }}" method="POST" style="display: none;">
-                                                    @csrf
-                                                    @method('DELETE')
-                                                </form>
                                             </li>
-                                        @endif
-                                    </ul>
+                                            @if ($groupe->achat)
+                                                <li>
+                                                    <a href="{{ route('achat.groupe.delete', $groupe->id) }}" onclick="event.preventDefault(); document.getElementById('delete-form-{{ $groupe->id }}').submit();">
+                                                        <em class="icon ni ni-trash"></em>
+                                                        <span>Supprimer</span>
+                                                    </a>
+                                                    <form id="delete-form-{{ $groupe->id }}" action="{{ route('achat.groupe.delete', $groupe->id) }}" method="POST" style="display: none;">
+                                                        @csrf
+                                                        @method('DELETE')
+                                                    </form>
+                                                </li>
+                                            @endif
+                                        </ul>
+
+                                    </div>
                                 </div>
-                            </div>
-                        </li>
-                    </ul>
+                            </li>
+                        </ul>
+
+                    @endif
                 </td>
             </tr>
 
@@ -98,15 +111,15 @@
                                             </button>
                                         </h2>
                                         <div id="collapse{{ $achat->id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ $achat->id }}" data-bs-parent="#accordion-{{ $groupe->id }}">
-                                            <div class="accordion-body">
-                                                <p><strong>Numéro d'achat :</strong> {{ $achat->numero_achat }}</p>
-                                                <p><strong>Date d'achat :</strong> {{ $achat->date_achat }}</p>
-                                                <p><strong>Prix unitaire :</strong> {{ number_format($achat->unit_price, 0, '', ' ') }} F CFA</p>
-                                                <p><strong>Quantité :</strong> {{ $achat->quantity }}</p>
-                                                <p><strong>Montant total :</strong> {{ number_format($achat->total_price, 0, '', ' ') }} F CFA</p>
-                                                <p><strong>Site :</strong> {{ $achat->site->name }}</p>
-                                                <p><strong>Utilisateur :</strong> {{ $achat->user ? $achat->user->lastname . ' ' . $achat->user->firstname : 'Utilisateur non trouvé' }}</p>
-                                                <p><strong>Statut :</strong> {{ $achat->status ? 'Validé' : 'Non validé' }}</p>
+                                            <div class="accordion-body p-3">
+                                                <div><strong>Numéro d'achat :</strong> {{ $achat->numero_achat }}</div>
+                                                <div><strong>Date d'achat :</strong> {{ $achat->date_achat }}</div>
+                                                <div><strong>Prix unitaire :</strong> {{ number_format($achat->unit_price, 0, '', ' ') }} F CFA</div>
+                                                <div><strong>Quantité :</strong> {{ $achat->quantity }}</div>
+                                                <div><strong>Montant total :</strong> {{ number_format($achat->total_price, 0, '', ' ') }} F CFA</div>
+                                                <div><strong>Site :</strong> {{ $achat->site->name }}</div>
+                                                <div><strong>Utilisateur :</strong> {{ $achat->user ? $achat->user->lastname . ' ' . $achat->user->firstname : 'Utilisateur non trouvé' }}</div>
+                                                <div><strong>Statut :</strong> {{ $achat->status ? 'Validé' : 'Non validé' }}</div>
                                             </div>
                                         </div>
                                     </div>
