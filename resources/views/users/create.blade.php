@@ -59,7 +59,7 @@
                                             {{-- id="status" --}}
                                             name="user[0][status]">
                                         <option value="" disabled selected>-- Sélectionnez un statut --</option>
-                                        <option value="admin" {{ old('user.0.status') == 'admin' ? 'selected' : '' }}>Admin</option>
+                                        {{-- <option value="admin" {{ old('user.0.status') == 'admin' ? 'selected' : '' }}>Admin</option> --}}
                                         <option value="super_admin" {{ old('user.0.status') == 'super_admin' ? 'selected' : '' }}>Super Admin</option>
                                         <option value="stock_manager" {{ old('user.0.status') == 'stock_manager' ? 'selected' : '' }}>Gestionnaire de stock</option>
                                         <option value="product_manager" {{ old('user.0.status') == 'product_manager' ? 'selected' : '' }}>Gestionnaire de produit</option>
