@@ -270,7 +270,7 @@
                                     data: {
                                         labels: ['Ventes', 'Achats', 'Bénéfices'],
                                         datasets: [{
-                                            data: [{{ $percentageVentes }}, {{ $percentageAchats }}, {{ $percentageBenefices }}],
+                                            data: [{{ $pourcentageVentes }}, {{ $pourcentageAchats }}, {{ $pourcentageBenefices }}],
                                             backgroundColor: ['#816bff', '#13c9f2', '#ff82b7'],
                                             borderColor: ['#816bff', '#13c9f2', '#ff82b7'],
                                             borderWidth: 1

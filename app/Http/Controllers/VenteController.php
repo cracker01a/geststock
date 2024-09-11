@@ -27,20 +27,26 @@ class VenteController extends Controller
     
     public function log1()
     {
-
-         // Récupérer les ventes et les achats
-        $ventes = Vente::sum(DB::raw('price * quantity')); // Total des ventes
-        $achats = Achat::sum(DB::raw('unit_price * quantity')); // Total des achats
-
+        // Récupérer les ventes et les achats
+        $ventes = (int) Vente::sum(DB::raw('price * quantity')); // Total des ventes
+        $achats = (int) Achat::sum(DB::raw('unit_price * quantity')); // Total des achats
+    
         // Calculer le bénéfice total (ventes - achats)
         $benefices = $ventes - $achats;
-
-        // Calculer les pourcentages
-        $total = $ventes + $achats + $benefices;
-        $percentageVentes = ($ventes / $total) * 100;
-        $percentageAchats = ($achats / $total) * 100;
-        $percentageBenefices = ($benefices / $total) * 100;
-
+    
+        // Calculer le total
+        $total = $ventes + $achats + $benefices;  // Calcul du total
+    
+        // Calculer les pourcentages seulement si le total est différent de zéro
+        if ($total != 0) {
+            $pourcentageVentes = ($ventes / $total) * 100;
+            $pourcentageAchats = ($achats / $total) * 100;
+            $pourcentageBenefices = ($benefices / $total) * 100;
+        } else {
+            // Si le total est égal à zéro, initialiser les pourcentages à zéro
+            $pourcentageVentes = $pourcentageAchats = $pourcentageBenefices = 0;
+        }
+    
         // Obtenir les 10 dernières ventes avec les informations de l'utilisateur
         $ventes = Vente::with('user') // Relation pour obtenir les informations de l'utilisateur
             ->orderBy('created_at', 'desc')
@@ -57,37 +63,38 @@ class VenteController extends Controller
         $product = $mostSoldProduct ? Product::find($mostSoldProduct->products_id) : null;
     
         // Calcul du revenu total journalier
-        $todayRevenue = Vente::join('achats', 'ventes.products_id', '=', 'achats.id') // Jointure avec la table achats
+        $todayRevenue = (float) Vente::join('achats', 'ventes.products_id', '=', 'achats.id') // Jointure avec la table achats
             ->whereDate('ventes.created_at', Carbon::today())
             ->select(DB::raw('SUM((ventes.price - achats.unit_price) * ventes.quantity) as total_revenue'))
-            ->value('total_revenue');
+            ->value('total_revenue') ?? 0.0;
     
         // Nombre total de produits
-        $totalProducts = Product::count();
-        
+        $totalProducts = (int) Product::count();
+    
         // Obtenir les sites actifs
         $sites = Site::where('isActive', true)->get();
-        $totalSites = $sites->count(); // Compter les sites actifs
+        $totalSites = (int) $sites->count(); // Compter les sites actifs
     
-        // Obtenir les ventes et revenus totaux
-        $totalSales = Vente::getTotalSales(); 
-        $totalRevenue = Vente::getTotalRevenue(); 
-        
+        // Obtenir les ventes et revenus totaux (ajout de valeurs par défaut en cas de null)
+        $totalSales = (int) Vente::getTotalSales() ?? 0;
+        $totalRevenue = (float) Vente::getTotalRevenue() ?? 0.0;
+    
         // Nombre de ventes aujourd'hui
-        $todaySalesCount = Vente::whereDate('created_at', Carbon::today())->count();
+        $todaySalesCount = (int) Vente::whereDate('created_at', Carbon::today())->count();
     
         // Définir la période pour les statistiques (exemple pour une semaine)
         $startDate = Carbon::now()->startOfWeek();
         $endDate = Carbon::now()->endOfWeek();
-        
-            // Récupérer les ventes totales pour la période
+    
+        // Récupérer les ventes totales pour la période
         $salesData = Vente::select(DB::raw('DATE(created_at) as date'), DB::raw('SUM(total_price) as total_sales'))
-        ->whereBetween('created_at', [$startDate, $endDate])
-        ->groupBy('date')
-        ->get();
+            ->whereBetween('created_at', [$startDate, $endDate])
+            ->groupBy('date')
+            ->get();
+    
         // Compter le nombre de vendeurs (stock_manager) et product managers
-        $totalVendors = User::where('status', 'stock_manager')->count();
-        $totalProductManagers = User::where('status', 'product_manager')->count();
+        $totalVendors = (int) User::where('status', 'stock_manager')->count();
+        $totalProductManagers = (int) User::where('status', 'product_manager')->count();
     
         // Passer toutes les données nécessaires à la vue dans un seul tableau
         return view('dashboard', compact(
@@ -104,11 +111,12 @@ class VenteController extends Controller
             'totalSites',          // Nombre de sites
             'totalVendors',        // Nombre de vendeurs
             'totalProductManagers',
-            'percentageVentes',
-            'percentageAchats',
-            'percentageBenefices' 
+            'pourcentageVentes',   // Corrigé de 'percentageVentes'
+            'pourcentageAchats',   // Corrigé de 'percentageAchats'
+            'pourcentageBenefices' // Corrigé de 'percentageBenefices'
         ));
     }
+    
     
    
     
