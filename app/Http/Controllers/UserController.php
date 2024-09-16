@@ -44,32 +44,32 @@ class UserController extends Controller
 
         foreach ($users as $user) {
 
-            $firstname  = ($user['firstname']);
-            $lastname  = ($user['lastname']);
-            $email  = ($user['email']);
-            $status  = ($user['status']);
-            $isActive  = ($user['isActive']);
-            $site_id  = ($user['site_id']);
+            $firstname  = $user['firstname'] ?? null;
+            $lastname  = $user['lastname'] ?? null;
+            $email  = $user['email'] ?? null;
+            $status  = $user['status'] ?? null;
+            $isActive  = $user['isActive'] ?? null;
+            $site_id  = $user['site_id'] ?? null;
 
-            // dd($site_id);
-            $create_user = User::create([
-                'firstname' => $firstname,
-                'lastname'   => $lastname,
-                'email' => $email,
-                'status' => $status,
-                'isActive' => $isActive,
-                'sites_id' => $site_id,
-                'password' => null, // Le mot de passe est défini à null
-            ]);
+            if ($firstname && $lastname && $email && $status && $isActive && $site_id) {
+                $create_user = User::create([
+                    'firstname' => $firstname,
+                    'lastname'   => $lastname,
+                    'email' => $email,
+                    'status' => $status,
+                    'isActive' => $isActive,
+                    'sites_id' => $site_id,
+                    'password' => null, // Le mot de passe est défini à null
+                ]);
 
-            if ($create_user) $create = $create + 1;
-
+                if ($create_user) $create = $create + 1;
+            }
         }
 
         if (isset($create_user)) {
             return redirect()->route('users.index')->with(['success' => "Vous venez d'enregistrer ".$create." utilisateurs(s)."]);
         }else {
-            return redirect()->route('users.index')->with(['error' => "Enregistrement echoué. Veuillez verifier vos informations saisies."]);
+            return redirect()->back()->with(['error' => "Enregistrement echoué. Veuillez verifier vos informations saisies."]);
         }
     }
     /**

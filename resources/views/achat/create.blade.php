@@ -15,20 +15,21 @@
         <form action="{{ route('achat.store') }}" method="POST" id="create-form">
             @csrf
 
+            <div class="row">
+                <div class="col-lg-5">
+                    <div class="form-group">
+
+                        <label class="form-label" for="site_id">Site</label>
+                        <input type="text" class="form-control" value=" {{ Auth::user()->site->name }}" readonly>
+                        <input type="hidden" name="site_id" class="form-control" value="{{ Auth::user()->site->id }} " readonly>
+
+                    </div>
+                </div>
+            </div>
+
             <div data-repeater-list="achat">
                 <div data-repeater-item>
                     <div class="row py-3">
-
-                        <div class="col-lg-5">
-                            <div class="form-group">
-
-                                <label class="form-label" for="site_id">Site</label>
-                                <input type="text" class="form-control" value=" {{ Auth::user()->site->name }}" readonly>
-                                <input type="hidden" name="site_id" class="form-control" value="{{ Auth::user()->site->id }} " readonly>
-
-                            </div>
-                        </div>
-
 
                         <div class="col-lg-5">
                             <div class="form-group">
@@ -74,7 +75,7 @@
                             <div class="form-group">
                                 <label class="form-label" for="date_achat">Date d'achat</label>
                                 <div class="form-control-wrap">
-                                    <input type="date" class="form-control @error('achat.*.date_achat') is-invalid @enderror" id="date_achat" name="achat[0][date_achat]" placeholder="Ex : 10">
+                                    <input type="date" class="form-control @error('achat.*.date_achat') is-invalid @enderror" id="date_achat" name="achat[0][date_achat]" value="{{ now()->format('Y-m-d') }}" placeholder="Ex : 10">
                                     @error('achat.*.date_achat')
                                         <span class="error">{{ $message }}</span>
                                     @enderror

@@ -68,44 +68,50 @@ class Achatcontroller extends Controller
         // $siteId = $user->sites_id;
         $achats = $request->achat;
         $create = 0;
+        $site_id = $request->site_id;
 
         foreach ($achats as $achat) {
             // Préparation des données
-            $site_id = $achat['site_id'];
-            $product_id = $achat['product_id'];
-            $quantity = (int)$achat['quantity'];
+            $product_id = $achat['product_id'] ?? null;
+            $quantity = (int)$achat['quantity'] ?? null;
             $users_id = Auth::id();
-            $unit_price = (float)$achat['unit_price'];
-            $date_achat = $achat['date_achat'];
-            $groupe_achats_id = $achat['groupe_achats_id'];
-            $total_price = $quantity * $unit_price;
+            $unit_price = (float)$achat['unit_price'] ?? null;
+            $date_achat = $achat['date_achat'] ?? now()->format('Y-m-d');
+            $groupe_achats_id = $achat['groupe_achats_id'] ?? null;
 
-            // Génération d'un numéro d'achat unique
-            $numeroAchat = generateUniqueNumber('ACH-', Achat::class, 'numero_achat');
-            // dd($site_id);
-            // Création d'un nouvel achat
-            $create_achat = Achat::create([
-                'sites_id' => $site_id,
-                'products_id' => $product_id,
-                'quantity' => $quantity,
-                'users_id' => $users_id,
-                'unit_price' => $unit_price,
-                'total_price' => $total_price,
-                'numero_achat' => $numeroAchat,
-                'date_achat' => $date_achat,
-                'groupe_achats_id' => $groupe_achats_id
-            ]);
+            if ($product_id && $quantity && $unit_price && $date_achat && $groupe_achats_id) {
+                $total_price = $quantity * $unit_price;
 
-            if ($create_achat) {
-                // Mise à jour de la quantité du produit
-                $product = Product::find($product_id);
-                if ($product) {
-                    $product->quantity += $quantity; // Ajouter la quantité de l'achat à la quantité existante
-                    $product->save(); // Sauvegarder les modifications dans la base de données
+                // Génération d'un numéro d'achat unique
+                $numeroAchat = generateUniqueNumber('ACH-', Achat::class, 'numero_achat');
+
+                // Création d'un nouvel achat
+                $create_achat = Achat::create([
+                    'sites_id' => $site_id,
+                    'products_id' => $product_id,
+                    'quantity' => $quantity,
+                    'users_id' => $users_id,
+                    'unit_price' => $unit_price,
+                    'total_price' => $total_price,
+                    'numero_achat' => $numeroAchat,
+                    'date_achat' => $date_achat,
+                    'groupe_achats_id' => $groupe_achats_id
+                ]);
+
+                if ($create_achat) {
+                    // Mise à jour de la quantité du produit
+                    $product = Product::find($product_id);
+                    if ($product) {
+                        $product->quantity += $quantity; // Ajouter la quantité de l'achat à la quantité existante
+                        $product->save(); // Sauvegarder les modifications dans la base de données
+                    }
+
+                    $create = $create + 1;
                 }
-
-                $create = $create + 1;
             }
+
+
+
         }
 
         if ($create > 0) {
@@ -136,7 +142,7 @@ class Achatcontroller extends Controller
 
         // Filtrer les produits en fonction du site_id
         $products = Product::where('sites_id', $siteId)->get();
-        
+
         //  dd($siteId);
         $sites = Site::where('isActive', true)->get();
         $siteId = $user->site_id;

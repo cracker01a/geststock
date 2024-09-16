@@ -28,32 +28,32 @@ class UserSeeder extends Seeder
 
         }
 
-        // if (!User::where('email' ,"gestproduct@gmail.com" )->first()) {
+        if (!User::where('email' ,"gestproduct@gmail.com" )->first()) {
 
-        //     DB::table('users')->insert([
-        //         'lastname'      => "Gestionnaire",
-        //         'firstname'     => "Produit",
-        //         'email'         => "gestproduct@gmail.com",
-        //         'status'        => 'product_manager',
-        //         'sites_id'      => 1,
-        //         'created_at'    => Carbon::now(),
-        //         'updated_at'    => Carbon::now(),
-        //     ]);
+            DB::table('users')->insert([
+                'lastname'      => "Gestionnaire",
+                'firstname'     => "Produit",
+                'email'         => "gestproduct@gmail.com",
+                'status'        => 'product_manager',
+                'sites_id'      => 1,
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now(),
+            ]);
 
-        // }
+        }
 
-        // if (!User::where('email' ,"geststock@gmail.com" )->first()) {
+        if (!User::where('email' ,"geststock@gmail.com" )->first()) {
 
-        //     DB::table('users')->insert([
-        //         'lastname'      => "Gestionnaire",
-        //         'firstname'     => "Produit",
-        //         'email'         => "geststock@gmail.com",
-        //         'status'        => 'product_manager',
-        //         'sites_id'      => 1,
-        //         'created_at'    => Carbon::now(),
-        //         'updated_at'    => Carbon::now(),
-        //     ]);
+            DB::table('users')->insert([
+                'lastname'      => "Gestionnaire",
+                'firstname'     => "Stock",
+                'email'         => "geststock@gmail.com",
+                'status'        => 'stock_manager',
+                'sites_id'      => 1,
+                'created_at'    => Carbon::now(),
+                'updated_at'    => Carbon::now(),
+            ]);
 
-        // }
+        }
     }
 }
