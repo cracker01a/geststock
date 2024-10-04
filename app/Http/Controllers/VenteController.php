@@ -29,7 +29,12 @@ class VenteController extends Controller
     {
         // Récupérer les ventes et les achats
         $ventes = (int) Vente::sum(DB::raw('price * quantity')); // Total des ventes
-        $achats = (int) Achat::sum(DB::raw('unit_price * quantity')); // Total des achats
+
+        // Total des achats : unit_price de la table achats * quantity de la table ventes
+        $achats = (int) DB::table('achats')
+            ->join('ventes', 'achats.products_id', '=', 'ventes.products_id')
+            ->sum(DB::raw('achats.unit_price * ventes.quantity')); // Utilisation de la colonne quantity de ventes
+        
     
         // Calculer le bénéfice total (ventes - achats)
         $benefices = $ventes - $achats;
@@ -128,6 +133,40 @@ class VenteController extends Controller
     
         return view('ventes.qte', compact('sites', 'products'));
     }
+    
+    public function index2(Request $request)
+    {
+        
+        // Récupérer l'ID du site à partir du formulaire de sélection (ou "all" par défaut)
+        $sites_id = $request->get('sites_id', 'all');
+    
+        // Construire la requête initiale pour les ventes
+        $query = DB::table('ventes')
+            ->join('achats', 'ventes.products_id', '=', 'achats.products_id')
+            ->join('products', 'ventes.products_id', '=', 'products.id')
+            ->select(
+                'products.name as product_name',
+                'achats.unit_price as prix_achat',
+                'ventes.quantity as qte_vendue',
+                'achats.currentqte as qte_restante',
+                'achats.created_at as date_achat',
+                DB::raw('(ventes.price - achats.unit_price) * ventes.quantity as recette')
+            );
+    
+        // Si un site spécifique est sélectionné, filtrer par l'ID du site
+        if ($sites_id !== 'all') {
+            $query->where('achats.sites_id', $sites_id);
+        }
+    
+        // Exécuter la requête
+        $inventaire = $query->get();
+    
+        // Récupérer les sites actifs pour le sélecteur
+        $sites = Site::where('isActive', true)->get();
+    
+        return view('inventaires.list', compact('inventaire', 'sites', 'sites_id'));
+    }
+    
 
 
     public function create()
@@ -140,7 +179,7 @@ class VenteController extends Controller
         $products = Product::where('sites_id', $siteId)->where("quantity" , ">" , "0")->get();
         //  dd($siteId);
         $sites = Site::where('isActive', true)->get();
-        $siteId = $user->site_id;
+        $siteId = $user->sites_id;
         // $groupes = GroupeAchat::orderByDesc('created_at')->get();
         // Récupérer les groupes d'achat créés par l'utilisateur authentifié
         $groupes = GroupeVente::where('users_id', Auth::id())
@@ -153,10 +192,12 @@ class VenteController extends Controller
 
     public function store(Request $request)
     {
+                    
 
         $ventes = $request->vente;
         $create = 0;
-
+       
+        // dd($siteId);
         foreach ($ventes as $vente) {
 
             // Préparation des données
@@ -167,10 +208,34 @@ class VenteController extends Controller
             $groupe_ventes_id = $vente['groupe_ventes_id'];
             // $total_price = $price * $quantity;
             $total_price = $vente['total_vente'];
+            $numero_achat = $vente['numero_achat'];
+        
+            
+            // $achat = DB::table('achats')
+            // ->where('products_id', $request->product_id)
+            // ->where('sites_id', $request->site_id)
+            // ->first();
+            // dd
 
-            if ($site_id && $product_id && $quantity && $price && $groupe_ventes_id && $total_price) {
 
-                // Récupérer le produit
+            if ( $product_id && $quantity && $price && $groupe_ventes_id && $total_price && $numero_achat) {
+                $user = Auth::user();
+
+                $siteId = $user->sites_id;
+        
+
+                $currentqte = Achat::where('numero_achat', $numero_achat)->value('currentqte');
+                $achatId = Achat::where('numero_achat', $numero_achat)->value('id');
+
+                     $new = $currentqte - $quantity; 
+                    
+                if ($new < 0) {
+                    return redirect()->route('ventes.create')->with(['error' => "Enregistrement échoué. Veuillez recharger ce produit, sa quantité est insuffisante."]);
+                }  else {
+                    // Mettre à jour la colonne `currentqte` dans la table des achats
+                    Achat::where('id', $achatId)->update(['currentqte' => $new]);
+
+                    // Récupérer le produit
                 $produit = Product::where('id', $product_id)->first();
 
                 // Vérifier la quantité disponible
@@ -187,13 +252,17 @@ class VenteController extends Controller
                         $create_vente = Vente::create([
                             'products_id'       => $product_id,
                             // 'achats_id'         => Achat::where('products_id', $product_id)->first()->id,
-                            'sites_id'          => $site_id,
+                            'sites_id'          => $siteId,
                             'quantity'          => $quantity,
                             'price'             => $price,
+                            // 'achats_id'         => $achat, 
+                            'achats_id'         => Achat::where('products_id', $product_id)->first()->id,
                             'groupe_ventes_id'  => $groupe_ventes_id,
                             'total_price'       => $total_price,
                             'vente_date'        => now(),
                             'numero_vente'      => $numeroVente,
+                            'numero_achat'      => $numero_achat,
+                            'achats_id'          => $achatId,
                             'users_id'          => Auth::id(),
                         ]);
 
@@ -206,6 +275,11 @@ class VenteController extends Controller
                     }
                 }
 
+
+                }
+               
+
+                
             }
 
         }
@@ -425,7 +499,7 @@ class VenteController extends Controller
                 'price'             => number_format( $vente->price , 0 , '' , ' '),
                 'quantity'          => $vente->quantity,
                 'total_price'       => number_format( $vente->total_price , 0 , '' , ' '),
-                'date'              => $vente->date_vente,
+                'date'              => $vente->vente_date,
                 'by'                => $vente->user->lastname.' '.$vente->user->firstname,
                 'status'            => $status,
                 'actions'           => $actions
@@ -436,5 +510,15 @@ class VenteController extends Controller
         return response()->json(['data' => $data ]);
 
     }
+
+    public function getNumeroAchat($productId) {
+        $userSiteId = Auth::user()->sites_id;
+        $achats = Achat::where('products_id', $productId)
+                        ->where('sites_id', $userSiteId)
+                        ->where('currentqte', '>', 0)
+                        ->get(['numero_achat', 'currentqte']);
+        return response()->json($achats);
+    }
+//  dd($achats);
 
 }

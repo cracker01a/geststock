@@ -118,10 +118,10 @@ class GroupeVenteController extends Controller
 
             $groupe->update($data);
 
-            return redirect()->routeroute('ventes.groupe_ventes.index')
+            return redirect()->route('ventes.groupe_ventes.index')
                             ->with('success', 'Groupe modifiée avec succès');
         }else{
-            return redirect()->routeroute('ventes.groupe_ventes.index')
+            return redirect()->route('ventes.groupe_ventes.index')
                             ->with('error', 'Ce groupe n\'existe pas');
         }
     }

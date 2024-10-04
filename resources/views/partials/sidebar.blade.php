@@ -131,8 +131,35 @@
                                 @endif
                             </ul>
                         </li>
+                        {{-- INVENTAIRES --}}
+                        <li class="nk-menu-item has-sub">
+                            <a href="#" class="nk-menu-link nk-menu-toggle">
+                                <span class="nk-menu-icon"><em class="icon ni ni-growth-fill"></em></span>
+                                <span class="nk-menu-text">Inventaires</span>
+                            </a>
+                            <ul class="nk-menu-sub">
+
+                                
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('ventes.index2') }}" class="nk-menu-link"><span class="nk-menu-text">List</span></a>
+                                </li>
+                                <li class="nk-menu-item">
+                                    <a href="{{ route('ventes.index1') }}" class="nk-menu-link"><span class="nk-menu-text">Qte</span></a>
+                                </li>
+                                <!-- @if ( Auth::user()->status == 'stock_manager')
+                                    <li class="nk-menu-item">
+                                        <a href="{{ route('achat.create') }}" class="nk-menu-link"><span class="nk-menu-text">Ajout</span></a>
+                                    </li>
+                                @endif -->
+                            </ul>
+                        </li>
+
 
                     @endif
+
+
+                    
+
 
                     {{-- UTILISATEURS --}}
                     @if ( Auth::user()->status == 'super_admin')

@@ -85,8 +85,12 @@ Route::group(['middleware' => ['auth']] , function(){
     // Routes for 'ventes'
     Route::resource('ventes', VenteController::class)->except(['show']);
     Route::get('/index1', [VenteController::class, 'index1'])->name('ventes.index1');
+    Route::get('/inventaires', [VenteController::class, 'index2'])->name('ventes.index2');
+    route::get('/get-numero-achat/{productId}', [VenteController::class, 'getNumeroAchat']);
 
-    // Routes for 'groupe_ventes'
+    Route::get('/inventaires/index2', [VenteController::class, 'index2'])->name('inventaires.index2');
+
+    // Routes for 'groupe_ventes'ventes.get_data
 
     // Route::delete('/groupe_ventes/delete/{id}', [GroupeVenteController::class, 'destroy'])->name('groupe_ventes.delete');
 

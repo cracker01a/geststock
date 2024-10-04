@@ -62,7 +62,7 @@
 
 
     <table class="nowrap nk-tb-list is-separate table"
-            data-auto-responsive="false"
+            data-auto-responsive="true"
             id="achat_table">
 
         <thead>

@@ -91,6 +91,7 @@ class Achatcontroller extends Controller
                     'products_id' => $product_id,
                     'quantity' => $quantity,
                     'users_id' => $users_id,
+                    'currentqte' => $quantity,
                     'unit_price' => $unit_price,
                     'total_price' => $total_price,
                     'numero_achat' => $numeroAchat,

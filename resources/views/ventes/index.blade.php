@@ -55,7 +55,7 @@
         </div>
     </div>
 
-    <table class="nowrap nk-tb-list is-separate"
+    <table class="nowrap nk-tb-list is-separate" data-auto-responsive="true"
             id="vente_table">
 
         <thead>

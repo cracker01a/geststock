@@ -340,21 +340,32 @@
                             </div>
 
                             <div class="col-lg-5">
-                                <div class="form-group">
-                                    <label class="form-label" for="product_id">Choisissez le produit</label>
-                                    <select class="form-select @error('product_id') is-invalid @enderror"
-                                            name="product_id"
-                                            onchange="get_price_unit(this)">
-                                        <option value="" disabled selected>Sélectionnez un produit</option>
-                                        @foreach ($products as $product)
-                                            <option value="{{ $product->id }}">{{ $product->name . " (" . $product->price . ")" }}</option>
-                                        @endforeach
-                                    </select>
-                                    @error('product_id')
-                                        <span class="error">{{ $message }}</span>
-                                    @enderror
-                                </div>
+                            <div class="form-group">
+                                <label class="form-label" for="product_id">Choisissez le produit</label>
+                                <select class="form-select @error('product_id') is-invalid @enderror"
+                                        name="product_id"
+                                        id="product_id"
+                                        onchange="updateNumeroAchat(this); get_price_unit(this)">
+                                    <option value="" disabled selected>Sélectionnez un produit</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->name . " (" . $product->price . ")" }}</option>
+                                    @endforeach
+                                </select>
+                                @error('product_id')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
                             </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="numero_achat">Numéro d'Achat</label>
+                                <select class="form-select" name="achat[0][numero_achat]" id="numero_achat">
+                                    <option value="">Sélectionnez un numéro d'achat</option>
+                                </select>
+                            </div>
+                        </div>
+
 
 
                             <div class="col-lg-5">
@@ -454,8 +465,184 @@
 
 
         </div>
-    </div>
+    </div> 
+    
+     <!-- <div class="card">
+    <div class="card-body">
+        <form action="{{ route('ventes.store') }}" method="POST" id="create-form">
+            @csrf
 
+            <div class="form-group pt-2 text-end">
+                <h6>
+                    <label class="bg-primary p-2 text-white">
+                        Prix Total: <span id="total_general">0.00 FCFA</span>
+                    </label>
+                </h6>
+            </div>
+
+            <div data-repeater-list="vente">
+                <div data-repeater-item>
+                    <div class="row py-3">
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="site_id">Site</label>
+                                <input type="text" class="form-control" value="{{ Auth::user()->site->name }}" readonly>
+                                <input type="hidden" name="site_id" class="form-control" value="{{ Auth::user()->site->id }}" readonly>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="product_id">Choisissez le produit</label>
+                                <select class="form-select @error('product_id') is-invalid @enderror"
+                                        name="product_id"
+                                        id="product_id"
+                                        onchange="updateNumeroAchat(this); get_price_unit(this)">
+                                    <option value="" disabled selected>Sélectionnez un produit</option>
+                                    @foreach ($products as $product)
+                                        <option value="{{ $product->id }}">{{ $product->name . " (" . $product->price . ")" }}</option>
+                                    @endforeach
+                                </select>
+                                @error('product_id')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="numero_achat">Numéro d'Achat</label>
+                                <select class="form-select" name="achat[0][numero_achat]" id="numero_achat">
+                                    <option value="">Sélectionnez un numéro d'achat</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="unit_price">Prix Unitaire</label>
+                                <div class="form-control-wrap">
+                                    <input type="number" class="form-control @error('achat.*.unit_price') is-invalid @enderror"
+                                           id="unit_price" name="achat[0][unit_price]" placeholder="Ex : 5000" oninput="total(this)">
+                                    @error('achat.*.unit_price')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="quantity">Quantité</label>
+                                <div class="form-control-wrap">
+                                    <input type="number" min="0" step="1"
+                                           class="form-control @error('achat.*.quantity') is-invalid @enderror"
+                                           id="quantity" name="achat[0][quantity]" placeholder="Ex : 10" oninput="total(this)">
+                                    @error('achat.*.quantity')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="groupe_ventes_id">Choisissez le groupe</label>
+                                <select class="form-select @error('groupe_ventes_id') is-invalid @enderror" name="groupe_ventes_id">
+                                    <option value="" disabled selected>Sélectionnez un groupe</option>
+                                    @foreach ($groupes as $groupe)
+                                        <option value="{{ $groupe->id }}">{{ $groupe->name }}</option>
+                                    @endforeach
+                                </select>
+                                @error('groupe_ventes_id')
+                                    <span class="error">{{ $message }}</span>
+                                @enderror
+                            </div>
+                        </div>
+
+                        <div class="col-lg-5">
+                            <div class="form-group">
+                                <label class="form-label" for="date_achat">Total</label>
+                                <div class="form-control-wrap">
+                                    <input type="text" class="form-control @error('achat.*.total_vente') is-invalid @enderror"
+                                           id="total_vente" name="achat[0][total_vente]" readonly>
+                                    @error('achat.*.total_vente')
+                                        <span class="error">{{ $message }}</span>
+                                    @enderror
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-lg-2 d-flex align-items-end">
+                            <button type="button" class="btn btn-icon btn-md btn-danger" title="Retirer un achat" data-repeater-delete>
+                                <em class="icon ni ni-minus"></em>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="pt-3">
+                <button type="button" class="btn btn-icon btn-md btn-warning" title="Ajouter un achat" data-repeater-create onclick="add_new_achats()">
+                    <em class="icon ni ni-plus"></em>
+                </button>
+            </div>
+
+            <div class="pt-3 text-center">
+                <button type="submit" class="btn btn-md btn-primary" title="Ajouter un achat">
+                    Enregistrer
+                </button>
+            </div>
+        </form>
+    </div>
+</div> -->
+
+<script>
+// function updateNumeroAchat(selectElement) {
+//     const productId = selectElement.value;
+//     const numeroAchatSelect = document.getElementById('numero_achat');
+//     numeroAchatSelect.innerHTML = '<option value="">Sélectionnez un numéro d\'achat</option>'; // Clear existing options
+
+//     if (productId) {
+//         fetch(`/get-numero-achat/${productId}`) // Adjust this route as needed
+//             .then(response => response.json())
+//             .then(data => {
+//                 data.forEach(achat => {
+//                     const option = document.createElement('option');
+//                     option.value = achat.numero_achat;
+//                     option.text = `${achat.numero_achat} (${achat.currentqte})`;
+//                     numeroAchatSelect.appendChild(option);
+//                 });
+//             })
+//             .catch(error => console.error('Error fetching numero_achat:', error));
+//     }
+// }
+function updateNumeroAchat(selectElement) {
+    const productId = selectElement.value;
+    const numeroAchatSelect = selectElement.closest('.row').querySelector('#numero_achat');
+    
+    numeroAchatSelect.innerHTML = '<option value="">Sélectionnez un numéro d\'achat</option>'; // Clear existing options
+
+    if (productId) {
+        fetch(`/get-numero-achat/${productId}`) // Route côté serveur pour récupérer les numéros d'achat
+            .then(response => response.json())
+            .then(data => {
+                data.forEach(achat => {
+                    const option = document.createElement('option');
+                    option.value = achat.numero_achat;
+                    option.text = `${achat.numero_achat} (${achat.currentqte})`;
+                    numeroAchatSelect.appendChild(option);
+                });
+            })
+            .catch(error => {
+                console.error('Erreur lors de la récupération des numéros d\'achat :', error);
+            });
+    }
+}
+
+    // ... other JavaScript functions (get_price_unit, total, add_new_achats) ...
+</script>
 
 @endsection
 
