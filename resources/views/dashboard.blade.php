@@ -53,7 +53,6 @@
                                                         <canvas class="ecommerce-line-chart-s3" id="todayOrders"></canvas>
                                                     </div>
                                                 </div>
-                                                <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>4.63%</span><span> vs. last week</span></div>
                                             </div>
                                         </div><!-- .card-inner -->
                                     </div><!-- .nk-ecwg -->
@@ -75,7 +74,6 @@
                                                         <canvas class="ecommerce-line-chart-s3" id="todayRevenue"></canvas>
                                                     </div>
                                                 </div>
-                                                <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
                                             </div>
                                         </div><!-- .card-inner -->
                                     </div><!-- .nk-ecwg -->
@@ -119,7 +117,7 @@
                                                         <canvas class="ecommerce-line-chart-s3" id="todayVisitors"></canvas>
                                                     </div>
                                                 </div>
-                                                <div class="info"><span class="change down text-danger"><em class="icon ni ni-arrow-long-down"></em>2.34%</span><span> vs. last week</span></div>
+                                                <div class="info"><span class="change up text-danger"><em class="icon ni ni-arrow-long-up"></em>2.34%</span><span> Revenus effectués Aujourd'hui</span></div>
                                             </div>
                                         </div><!-- .card-inner -->
                                     </div><!-- .nk-ecwg -->

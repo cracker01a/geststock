@@ -69,7 +69,7 @@
             <tr class="nk-tb-item nk-tb-head">
                 <th class="nk-tb-col tb-col-sm"><span>N°</span></th>
                 <th class="nk-tb-col tb-col-sm"><span>Num</span></th>
-                <th class="nk-tb-col tb-col-sm"><span>Name</span></th>
+                <th class="nk-tb-col tb-col-sm"><span>Nom</span></th>
                 <th class="nk-tb-col"><span>Prix Unitaire</span></th>
                 <th class="nk-tb-col"><span>Quantité</span></th>
                 <th class="nk-tb-col"><span>Prix Total</span></th>

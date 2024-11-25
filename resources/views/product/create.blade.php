@@ -21,7 +21,7 @@
 
                         <div class="row py-3">
 
-                            <div class="col-lg-4">
+                            <!-- <div class="col-lg-4">
                                 <div class="form-group">
                                     <label class="form-label" for="sites_id">Choisissez le site</label>
                                     <select class="form-select  @error('sites_id') is-invalid @enderror"
@@ -47,7 +47,7 @@
                                         <span class="error">{{ $message }}</span>
                                     @enderror
                                 </div>
-                            </div>
+                            </div> -->
 
                             <div class="col-lg-4">
                                 <div class="form-group">

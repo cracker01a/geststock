@@ -68,7 +68,7 @@
                 <th class="nk-tb-col tb-col-sm"><span>N°</span></th>
                 <th class="nk-tb-col tb-col-sm"><span>Nom</span></th>
                 <th class="nk-tb-col"><span>Prix</span></th>
-                <th class="nk-tb-col"><span>Qte</span></th>
+                <th class="nk-tb-col"><span>Quantité</span></th>
                 <th class="nk-tb-col"><span>Par</span></th>
                 <th class="nk-tb-col"><span>Date creation</span></th>
                 <th class="nk-tb-col"><span>Actif</span></th>

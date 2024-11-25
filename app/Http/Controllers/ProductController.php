@@ -114,21 +114,25 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+        
+        $site_id = Auth::user()->sites_id;
+
         $products = $request->product;
         $create = 0;
-
+        // dd( $site_id );
         foreach ($products as $product) {
 
             if ($product['name'] && $product['price']) {
 
                 $name   = mb_strtoupper($product['name']);
                 $price   = mb_strtoupper($product['price']);
-                $sites_id   = mb_strtoupper($product['sites_id']);
+                // $sites_id   = mb_strtoupper($product['sites_id']);
 
                 $create_product = Product::create([
                     'name'      => strtoupper($name),
                     'price'     => $price,
-                    'sites_id'  => $sites_id,
+                    // 'sites_id'  => $sites_id,
+                    'sites_id'  => $site_id,
                     'users_id'  => Auth::id(),
                 ]);
 
@@ -166,7 +170,9 @@ class ProductController extends Controller
      */
     public function update(Request $request, Product $product)
     {
-        $rules = [ 'name' => 'required|string' , 'price' => 'required|string' , 'sites_id' => 'required' ];
+        $site_id = Auth::user()->sites_id;
+
+        $rules = [ 'name' => 'required|string' , 'price' => 'required|string' ];
 
         $request->validate($rules);
 
@@ -183,7 +189,7 @@ class ProductController extends Controller
 
             $data['name'] = $request->name;
             $data['price'] = $request->price;
-            $data['sites_id'] = $request->sites_id;
+            $data['sites_id'] = $site_id;
 
             $product->update($data);
 

@@ -126,7 +126,7 @@
                                 @endif
                                 @if ( Auth::user()->status == 'super_admin')
                                 <li class="nk-menu-item">
-                                    <a href="{{ route('ventes.index1') }}" class="nk-menu-link"><span class="nk-menu-text">Qte</span></a>
+                                    <a href="{{ route('ventes.index1') }}" class="nk-menu-link"><span class="nk-menu-text">Quantité</span></a>
                                 </li>
                                 @endif
                             </ul>
@@ -144,7 +144,7 @@
                                     <a href="{{ route('ventes.index2') }}" class="nk-menu-link"><span class="nk-menu-text">List</span></a>
                                 </li>
                                 <li class="nk-menu-item">
-                                    <a href="{{ route('ventes.index1') }}" class="nk-menu-link"><span class="nk-menu-text">Qte</span></a>
+                                    <a href="{{ route('ventes.index1') }}" class="nk-menu-link"><span class="nk-menu-text">Quantité</span></a>
                                 </li>
                                 <!-- @if ( Auth::user()->status == 'stock_manager')
                                     <li class="nk-menu-item">
